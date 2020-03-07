@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="564.0" prefWidth="902.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EkgGUIController">
+   <children>
+      <LineChart layoutX="101.0" layoutY="319.0" prefHeight="199.0" prefWidth="540.0" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="101.0" AnchorPane.rightAnchor="272.0" AnchorPane.topAnchor="319.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </LineChart>
+      <GridPane layoutX="636.0" prefHeight="566.0" prefWidth="277.0" style="-fx-background-color: lightblue;">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="133.0" minWidth="10.0" prefWidth="80.4" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="256.80000000000007" minWidth="10.0" prefWidth="201.80000000000004" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Navn:" />
+            <Label text="Efternavn:" GridPane.rowIndex="1" />
+            <Label text="Alder:" GridPane.rowIndex="2" />
+            <Label text="Køn:" GridPane.rowIndex="3" />
+            <Label text="Valgt" GridPane.rowIndex="4" />
+            <Label text=" " GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" />
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="82.0" text="Mand" />
+                  <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="76.0" text="Kvinde" />
+               </children>
+            </FlowPane>
+         </children>
+      </GridPane>
+      <TextArea layoutX="639.0" layoutY="296.0" prefHeight="267.0" prefWidth="267.0" promptText="Skriv en kommentar" />
+      <Label layoutX="133.0" layoutY="14.0" prefHeight="40.0" prefWidth="218.0" text="Patient Monitoring System Offline">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="tempLabel" layoutX="13.0" layoutY="101.0" onMouseClicked="#tempKnap" text="Patientens temperatur:" />
+      <Button fx:id="tempB" layoutX="507.0" layoutY="88.0" mnemonicParsing="false" onMouseClicked="#tempKnap" prefHeight="26.0" prefWidth="121.0" text="Opdater Temp" />
+      <Label fx:id="bpmLabel" layoutX="15.0" layoutY="154.0" onMouseClicked="#BPMKnap" text="Patientens BPM:" />
+      <Button fx:id="bpmB" layoutX="507.0" layoutY="128.0" mnemonicParsing="false" onMouseClicked="#BPMKnap" prefHeight="26.0" prefWidth="121.0" text="Opdater BPM" />
+      <Label fx:id="spo2Label" layoutX="16.0" layoutY="206.0" onMouseClicked="#SPO2Knap" text="Patientens SPO2:" />
+      <Button fx:id="spo2B" layoutX="507.0" layoutY="172.0" mnemonicParsing="false" onMouseClicked="#SPO2Knap" prefHeight="26.0" prefWidth="121.0" text="Opdater SPO2" />
+      <Label layoutX="121.0" layoutY="302.0" text="EKG:" />
+      <Button layoutX="507.0" layoutY="215.0" mnemonicParsing="false" onMouseClicked="#ekgKnap" prefHeight="26.0" prefWidth="121.0" text="Opdater EKG" />
+      <ImageView fitHeight="55.0" fitWidth="58.0" layoutX="30.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@UON.JPG" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="55.0" fitWidth="60.0" layoutX="29.0" layoutY="481.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@UOFF.JPG" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="93.0" fitWidth="130.0" layoutX="1.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@LOGOHVID'.JPG" />
+         </image>
+      </ImageView>
+      <Polyline fx:id="polyline" layoutX="223.0" layoutY="343.0" onMouseClicked="#ekgKnap" strokeType="INSIDE" />
+   </children>
+</AnchorPane>
