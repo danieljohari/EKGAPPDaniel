@@ -116,3 +116,31 @@ Temperatur: 38.0 BPM: 139.0 SPO2: 98.0
 Temperatur: 37.0 BPM: 56.0 SPO2: 91.0
 Temperatur: 36.0 BPM: 105.0 SPO2: 103.0
 Temperatur: 39.0 BPM: 114.0 SPO2: 89.0
+Temperatur: 38.0 BPM: 64.0 SPO2: 92.0
+Temperatur: 39.0 BPM: 107.0 SPO2: 88.0
+Temperatur: 37.0 BPM: 94.0 SPO2: 105.0
+Temperatur: 37.0 BPM: 89.0 SPO2: 86.0
+Temperatur: 39.0 BPM: 98.0 SPO2: 104.0
+Temperatur: 37.0 BPM:  SPO2: 106.0
+Temperatur: 40.0 BPM:  SPO2: 106.0
+Temperatur: 38.0 BPM:  SPO2: 91.0
+Temperatur:  BPM:  SPO2: 87.0
+Temperatur:  BPM:  SPO2: 98.0
+Temperatur:  BPM:  SPO2: 
+Temperatur:  BPM:  SPO2: 
+Temperatur:  BPM:  SPO2: 
+Temperatur:  BPM:  SPO2: 
+Temperatur:  BPM:  SPO2: 
+Temperatur:  BPM:  SPO2: 
+Temperatur:  BPM:  SPO2: 
+Temperatur:  BPM:  SPO2: 
+Temperatur:  BPM:  SPO2: 
+Temperatur:  BPM:  SPO2: 
+Temperatur:  BPM:  SPO2: 
+Temperatur:  BPM:  SPO2: 
+Temperatur:  BPM:  SPO2: 
+Temperatur:  BPM:  SPO2: 
+Temperatur:  BPM:  SPO2: 
+Temperatur:  BPM:  SPO2: 
+Temperatur:  BPM:  SPO2: 
+Temperatur:  BPM:  SPO2: 

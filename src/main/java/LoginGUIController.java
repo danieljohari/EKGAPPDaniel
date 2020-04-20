@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -7,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -20,9 +22,10 @@ public class LoginGUIController  extends Application {
     public PasswordField txtPassword;
 
 
-    private void login(javafx.event.ActionEvent event) throws IOException {
+    public void login(MouseEvent event) throws IOException {
         if (txtUsername.getText().equals("user") && txtPassword.getText().equals("pass")){
-            Parent parLogin = FXMLLoader.load(getClass().getResource("LoginGUIController.fxml"));
+
+            Parent parLogin = FXMLLoader.load(getClass().getResource("ekgGUI.fxml"));
             Scene sceneLogin = new Scene(parLogin);
             Stage stageLogin = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stageLogin.setScene(sceneLogin);

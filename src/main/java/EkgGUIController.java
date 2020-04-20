@@ -1,3 +1,4 @@
+import data.*;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -5,17 +6,23 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Polyline;
 import java.io.PrintWriter;
+
 import static java.lang.Math.sin;
 
-public class EkgGUIController {
+public class EkgGUIController implements BpmListener, TempListener, SPO2Listener {
+
+
     private TempSim tempSim = new TempSim();
-    private  BPMSim bpmSim = new BPMSim();
+    private BPMSim bpmSim = new BPMSim();
     private SPO2Sim spo2Sim = new SPO2Sim();
     private double maxTemp =0.0;
     private double maxBPM = 0.0;
     private double maxSPO2 = 0.0;
     private  EKGAPP ekgapp;
-
+    private String efternavn;
+    private String fornavn;
+    private String alder;
+    private String kon;
     private PrintWriter pw;
     public TextField fornavnText;
     public TextField efternavnText;
@@ -38,8 +45,9 @@ public class EkgGUIController {
     public Button bOff;
     public Polyline polyline;
     public EKGAPP getLimit;
-
-
+    private double bpm;
+    private double temp;
+    private double spo2;
 
 
     public void ekgKnap(MouseEvent actionEvent) throws InterruptedException {
@@ -62,76 +70,24 @@ public class EkgGUIController {
         }).start();
     }
 
-    public void tempKnap() {
-        //får sin egen thread.
-        Platform.runLater(new Runnable() {
-            public void run() {
-                double currentTemp = 0;
-                try {
-                    currentTemp = tempSim.getTemp();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+    public void tempKnap(MouseEvent mouseEvent) {
+        TempSim tempSim = new TempSim();
+        new Thread(tempSim).start();
+        tempSim.register((TempListener) this);
 
-                tempLabel.setText("Patientens temperatur: " + currentTemp);
-                if (currentTemp>= maxTemp){
-                    warningTemp.setText("Advarsel! temperatur over "+maxTemp);
-                } else if (currentTemp < maxTemp){
-                    warningTemp.setText("");
-                }
-
-            }
-        });
     }
 
     public void BPMKnap(MouseEvent mouseEvent) {
-        Platform.runLater(new Runnable() {
-            public void run() {
-
-                double currentBPM = 0;
-                try {
-                    currentBPM = bpmSim.getBPM();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-
-                bpmLabel.setText("Patientens BPM: " + currentBPM);
-
-
-                if (currentBPM >= maxBPM) {
-                    warningBPM.setText("Advarsel! puls over 120!");
-                } else if (currentBPM < maxBPM) {
-                    warningBPM.setText("");
-                }
-
-            }
-
-        });
+        BPMSim bpmSim = new BPMSim();
+        new Thread(bpmSim).start();
+        bpmSim.register(this);
     }
 
+
     public void SPO2Knap(MouseEvent mouseEvent){
-        Platform.runLater(new Runnable() {
-            public void run() {
-                double currentSPO2 = 0;
-                try {
-                    currentSPO2 = spo2Sim.getSPO2();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-
-                spo2Label.setText("Patientens SPO2: " +currentSPO2);
-
-
-                    if (currentSPO2 <= maxSPO2) {
-                        warningSPO2.setText("Advarsel! Iltmætning under 95%!");
-                    } else if (currentSPO2 > maxSPO2){
-                        warningSPO2.setText("");
-                    }
-
-            }
-        });
+       SPO2Sim spo2Sim = new SPO2Sim();
+       new Thread(spo2Sim).start();
+       spo2Sim.register(this);
     }
 
     public void manKnap(MouseEvent mouseEvent){
@@ -187,26 +143,71 @@ public class EkgGUIController {
     }
 
     public void gemTextKnap (MouseEvent mouseEvent){
-        Platform.runLater(new Runnable() {
-            public void run() {
 
-            String fornavn = fornavnText.getText();
-            String efternavn = efternavnText.getText();
-            String alder = alderText.getText();
-            String kon = konValgt.getText();
+
+            this.fornavn = fornavnText.getText();
+            this.efternavn = efternavnText.getText();
+            this.alder = alderText.getText();
+            this.kon = konValgt.getText();
 
             String dataPerson = fornavn +" " + efternavn + ", " + alder + ", " + kon;
 
                 System.out.println(dataPerson);
 
+            }
 
 
+
+
+    public void notifybpm(final double bpm) {
+        //TODO: Save data i en database
+        //DBController.save(bpm,fornavn, efternavn, alder, kon, new Date() );
+        Platform.runLater(new Runnable() {
+            public void run() {
+
+                bpmLabel.setText("Patientens BPM: " + bpm );
+
+                if (bpm >= maxBPM) {
+                    warningBPM.setText("Advarsel! BPM over " + maxBPM);
+                } else {
+                    warningBPM.setText("");
+                }
+
+
+                }
+
+        });
+
+    }
+
+
+    public void notifyTemp(final double temp) {
+        Platform.runLater(new Runnable() {
+            public void run() {
+
+                tempLabel.setText("Patientens Temperatur: " + temp);
+                if (temp >= maxTemp){
+                    warningTemp.setText("Advarsel! Temperatur over " + maxTemp);
+                } else {
+                    warningTemp.setText("");
+                }
             }
         });
     }
 
+    public void notifySpo2(final double spo2) {
+        Platform.runLater(new Runnable() {
+            public void run() {
 
-
+                spo2Label.setText("Patientens SPO2: " + spo2);
+                if( spo2 < maxSPO2) {
+                    warningSPO2.setText("Advarsel! SPO2 under " + maxSPO2);
+                } else {
+                    warningSPO2.setText("");
+                }
+            }
+        });
+    }
 }
 
 

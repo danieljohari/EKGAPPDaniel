@@ -1,3 +1,6 @@
+import data.BPMSim;
+import data.SPO2Sim;
+import data.TempSim;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -29,7 +32,7 @@ public class EKGAPP extends Application {
         launch(args);
 
 
-       pw.println("Temperatur: " + tempSim.getTemp() + " BPM: " + bpmSim.getBPM() + " SPO2: " + spo2Sim.getSPO2());
+       pw.println("Temperatur: " +   " BPM: " +  " SPO2: " );
 
     }
 
@@ -37,7 +40,7 @@ public class EKGAPP extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader((getClass().getResource("ekgGui.fxml")));
+        FXMLLoader loader = new FXMLLoader((getClass().getResource("loginGUI.fxml")));
         AnchorPane anchorPane = loader.load();
         primaryStage.setScene(new Scene(anchorPane));
         primaryStage.show();
