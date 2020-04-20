@@ -9,6 +9,8 @@
 
 <AnchorPane prefHeight="564.0" prefWidth="902.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EkgGUIController">
    <children>
+      <Button fx:id="bOff" layoutX="32.0" layoutY="481.0" mnemonicParsing="false" onMouseClicked="#offKnap" prefHeight="56.0" prefWidth="58.0" style="-fx-background-color: red;" text="Off" />
+      <Button fx:id="bOn" layoutX="29.0" layoutY="402.0" mnemonicParsing="false" onMouseClicked="#onKnap" prefHeight="56.0" prefWidth="58.0" style="-fx-background-color: lightgreen;" text="On" />
       <LineChart layoutX="101.0" layoutY="319.0" prefHeight="199.0" prefWidth="540.0" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="101.0" AnchorPane.rightAnchor="272.0" AnchorPane.topAnchor="319.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" />
@@ -17,10 +19,10 @@
           <NumberAxis side="LEFT" />
         </yAxis>
       </LineChart>
-      <GridPane layoutX="636.0" prefHeight="566.0" prefWidth="277.0" style="-fx-background-color: lightblue;">
+      <GridPane layoutX="636.0" prefHeight="566.0" prefWidth="287.0" style="-fx-background-color: lightblue;">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="133.0" minWidth="10.0" prefWidth="80.4" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="256.80000000000007" minWidth="10.0" prefWidth="201.80000000000004" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="133.0" minWidth="10.0" prefWidth="102.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="256.80000000000007" minWidth="10.0" prefWidth="175.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -34,48 +36,47 @@
             <Label text="Efternavn:" GridPane.rowIndex="1" />
             <Label text="Alder:" GridPane.rowIndex="2" />
             <Label text="Køn:" GridPane.rowIndex="3" />
-            <Label text="Valgt" GridPane.rowIndex="4" />
-            <Label text=" " GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="konLabel" onMouseClicked="#manKnap" prefHeight="17.0" prefWidth="103.0" text="Valgt: " GridPane.rowIndex="4" />
+            <TextField prefHeight="26.0" prefWidth="150.0" text="Indtast Fornavn" GridPane.columnIndex="1" fx:id="fornavnText" />
+            <TextField text="Indtast Efternavn" GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="efternavnText"  />
+            <TextField text="Indtast Alder" GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="alderText" />
             <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="82.0" text="Mand" />
-                  <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="76.0" text="Kvinde" />
+                  <Button fx:id="manB" mnemonicParsing="false" onMouseClicked="#manKnap" prefHeight="26.0" prefWidth="82.0" style="-fx-border-color: blue;" text="Mand" />
+                  <Button fx:id="kvindeB" mnemonicParsing="false" onMouseClicked="#kvindeKnap" prefHeight="26.0" prefWidth="76.0" style="-fx-border-color: Magenta;" text="Kvinde" />
                </children>
             </FlowPane>
+            <Label GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+              <buttons>
+                <Button mnemonicParsing="false" text="Gem" fx:id="gemKnap" onMouseClicked="#gemTextKnap" />
+              </buttons>
+            </ButtonBar>
          </children>
       </GridPane>
       <TextArea layoutX="639.0" layoutY="296.0" prefHeight="267.0" prefWidth="267.0" promptText="Skriv en kommentar" />
-      <Label layoutX="133.0" layoutY="14.0" prefHeight="40.0" prefWidth="218.0" text="Patient Monitoring System Offline">
+      <Label fx:id="offLabel" layoutX="133.0" layoutY="14.0" onMouseClicked="#onKnap" onMouseDragEntered="#offKnap" prefHeight="40.0" prefWidth="218.0" text="Patient Monitoring System Offline">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
       <Label fx:id="tempLabel" layoutX="13.0" layoutY="101.0" onMouseClicked="#tempKnap" text="Patientens temperatur:" />
-      <Button fx:id="tempB" layoutX="507.0" layoutY="88.0" mnemonicParsing="false" onMouseClicked="#tempKnap" prefHeight="26.0" prefWidth="121.0" text="Opdater Temp" />
+      <Button fx:id="tempB" layoutX="507.0" layoutY="88.0" mnemonicParsing="false" onMouseClicked="#tempKnap" prefHeight="26.0" prefWidth="121.0" style="-fx-border-color: blue;" text="Opdater Temp" />
       <Label fx:id="bpmLabel" layoutX="15.0" layoutY="154.0" onMouseClicked="#BPMKnap" text="Patientens BPM:" />
-      <Button fx:id="bpmB" layoutX="507.0" layoutY="128.0" mnemonicParsing="false" onMouseClicked="#BPMKnap" prefHeight="26.0" prefWidth="121.0" text="Opdater BPM" />
+      <Button fx:id="bpmB" layoutX="507.0" layoutY="128.0" mnemonicParsing="false" onMouseClicked="#BPMKnap" prefHeight="26.0" prefWidth="121.0" style="-fx-border-color: purple;" text="Opdater BPM" />
       <Label fx:id="spo2Label" layoutX="16.0" layoutY="206.0" onMouseClicked="#SPO2Knap" text="Patientens SPO2:" />
-      <Button fx:id="spo2B" layoutX="507.0" layoutY="172.0" mnemonicParsing="false" onMouseClicked="#SPO2Knap" prefHeight="26.0" prefWidth="121.0" text="Opdater SPO2" />
+      <Button fx:id="spo2B" layoutX="507.0" layoutY="172.0" mnemonicParsing="false" onMouseClicked="#SPO2Knap" prefHeight="26.0" prefWidth="121.0" style="-fx-border-color: yellow;" text="Opdater SPO2" />
       <Label layoutX="121.0" layoutY="302.0" text="EKG:" />
-      <Button layoutX="507.0" layoutY="215.0" mnemonicParsing="false" onMouseClicked="#ekgKnap" prefHeight="26.0" prefWidth="121.0" text="Opdater EKG" />
-      <ImageView fitHeight="55.0" fitWidth="58.0" layoutX="30.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@UON.JPG" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="55.0" fitWidth="60.0" layoutX="29.0" layoutY="481.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@UOFF.JPG" />
-         </image>
-      </ImageView>
+      <Button layoutX="507.0" layoutY="215.0" mnemonicParsing="false" onMouseClicked="#ekgKnap" prefHeight="26.0" prefWidth="121.0" style="-fx-border-color: black;" text="Start EKG" />
       <ImageView fitHeight="93.0" fitWidth="130.0" layoutX="1.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@LOGOHVID'.JPG" />
          </image>
       </ImageView>
       <Polyline fx:id="polyline" layoutX="223.0" layoutY="343.0" onMouseClicked="#ekgKnap" strokeType="INSIDE" />
+      <Label fx:id="warningTemp" layoutX="242.0" layoutY="101.0" style="-fx-text-fill: red;" />
+      <Label fx:id="warningBPM" layoutX="242.0" layoutY="154.0" style="-fx-text-fill: red;" />
+      <Label fx:id="warningSPO2" layoutX="242.0" layoutY="206.0" style="-fx-text-fill: red;" />
+      <Button layoutX="514.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#granseKnap" prefHeight="26.0" prefWidth="122.0" text="Sæt grænser" />
    </children>
 </AnchorPane>

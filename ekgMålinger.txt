@@ -1,0 +1,94 @@
+Temperatur: nullBPM: nullSPO2: null
+Temperatur: nullBPM: nullSPO2: null
+Temperatur: nullBPM: nullSPO2: null
+Temperatur: nullBPM: nullSPO2: null
+Temperatur: nullBPM: nullSPO2: null
+Temperatur: nullBPM: nullSPO2: null
+Temperatur: nullBPM: nullSPO2: null
+Temperatur: null BPM: null SPO2: null
+Temperatur: 88.0 BPM: 44.0 SPO2: 99.0
+Temperatur: 108.0 BPM: 95.0 SPO2: 93.0
+Temperatur: 38.0 BPM: 46.0 SPO2: 106.0
+Temperatur: 37.0 BPM: 115.0 SPO2: 106.0
+null
+Temperatur: 37.0 BPM: 61.0 SPO2: 89.0
+TempSim@19e1916
+Temperatur: 37.0 BPM: 75.0 SPO2: 100.0
+class TempSim
+Temperatur: 39.0 BPM: 96.0 SPO2: 105.0
+38.0
+Temperatur: 39.0 BPM: 109.0 SPO2: 100.0
+Temperatur: 37.0 BPM: 90.0 SPO2: 90.0
+Temperatur: 38.0 BPM: 134.0 SPO2: 103.0
+Temperatur: 38.0 BPM: 103.0 SPO2: 101.0
+Temperatur: 40.0 BPM: 84.0 SPO2: 91.0
+Temperatur: 39.0 BPM: 54.0 SPO2: 101.0
+Temperatur: 39.0 BPM: 116.0 SPO2: 104.0
+Temperatur: 36.0 BPM: 79.0 SPO2: 106.0
+Temperatur: 37.0 BPM: 48.0 SPO2: 89.0
+Temperatur: 41.0 BPM: 52.0 SPO2: 102.0
+Temperatur: 41.0 BPM: 140.0 SPO2: 90.0
+Temperatur: 37.0 BPM: 83.0 SPO2: 104.0
+Temperatur: 37.0 BPM: 80.0 SPO2: 107.0
+Temperatur: 39.0 BPM: 111.0 SPO2: 104.0
+Temperatur: 39.0 BPM: 56.0 SPO2: 85.0
+Temperatur: 39.0 BPM: 63.0 SPO2: 99.0
+Temperatur: 39.0 BPM: 128.0 SPO2: 100.0
+Temperatur: 36.0 BPM: 126.0 SPO2: 94.0
+Temperatur: 37.0 BPM: 115.0 SPO2: 85.0
+Temperatur: 39.0 BPM: 119.0 SPO2: 107.0
+Temperatur: 38.0 BPM: 96.0 SPO2: 104.0
+null
+Temperatur: 40.0 BPM: 78.0 SPO2: 97.0
+null
+Temperatur: 37.0 BPM: 135.0 SPO2: 107.0
+null
+Temperatur: 37.0 BPM: 136.0 SPO2: 99.0
+Temperatur: 37.0 BPM: 95.0 SPO2: 89.0
+Temperatur: 39.0 BPM: 100.0 SPO2: 91.0
+Temperatur: 40.0 BPM: 117.0 SPO2: 94.0
+Temperatur: 39.0 BPM: 119.0 SPO2: 98.0
+Temperatur: 39.0 BPM: 120.0 SPO2: 96.0
+Temperatur: 41.0 BPM: 53.0 SPO2: 86.0
+Temperatur: 36.0 BPM: 75.0 SPO2: 107.0
+Temperatur: 37.0 BPM: 114.0 SPO2: 85.0
+Temperatur: 41.0 BPM: 113.0 SPO2: 91.0
+Temperatur: 40.0 BPM: 70.0 SPO2: 99.0
+Temperatur: 39.0 BPM: 71.0 SPO2: 101.0
+Temperatur: 37.0 BPM: 82.0 SPO2: 102.0
+Temperatur: 40.0 BPM: 136.0 SPO2: 86.0
+Temperatur: 39.0 BPM: 52.0 SPO2: 86.0
+Temperatur: 39.0 BPM: 108.0 SPO2: 87.0
+Temperatur: 39.0 BPM: 98.0 SPO2: 106.0
+Temperatur: 40.0 BPM: 105.0 SPO2: 93.0
+Temperatur: 36.0 BPM: 101.0 SPO2: 93.0
+Temperatur: 36.0 BPM: 106.0 SPO2: 89.0
+Temperatur: 37.0 BPM: 82.0 SPO2: 97.0
+Temperatur: 38.0 BPM: 102.0 SPO2: 99.0
+Temperatur: 39.0 BPM: 91.0 SPO2: 93.0
+Temperatur: 41.0 BPM: 130.0 SPO2: 96.0
+Temperatur: 41.0 BPM: 81.0 SPO2: 86.0
+Temperatur: 38.0 BPM: 136.0 SPO2: 85.0
+Temperatur: 40.0 BPM: 88.0 SPO2: 108.0
+Temperatur: 40.0 BPM: 136.0 SPO2: 93.0
+Temperatur: 36.0 BPM: 44.0 SPO2: 101.0
+Temperatur: 37.0 BPM: 90.0 SPO2: 100.0
+Temperatur: 40.0 BPM: 47.0 SPO2: 91.0
+Temperatur: 38.0 BPM: 97.0 SPO2: 96.0
+Temperatur: 39.0 BPM: 133.0 SPO2: 100.0
+Temperatur: 37.0 BPM: 83.0 SPO2: 96.0
+Temperatur: 38.0 BPM: 140.0 SPO2: 103.0
+Temperatur: 37.0 BPM: 74.0 SPO2: 108.0
+Temperatur: 36.0 BPM: 67.0 SPO2: 90.0
+Temperatur: 39.0 BPM: 108.0 SPO2: 89.0
+Temperatur: 40.0 BPM: 59.0 SPO2: 104.0
+Temperatur: 40.0 BPM: 116.0 SPO2: 106.0
+Temperatur: 38.0 BPM: 105.0 SPO2: 96.0
+Temperatur: 38.0 BPM: 92.0 SPO2: 96.0
+Temperatur: 36.0 BPM: 104.0 SPO2: 94.0
+Temperatur: 39.0 BPM: 131.0 SPO2: 102.0
+Temperatur: 39.0 BPM: 67.0 SPO2: 87.0
+Temperatur: 37.0 BPM: 115.0 SPO2: 98.0
+Temperatur: 37.0 BPM: 65.0 SPO2: 103.0
+Temperatur: 39.0 BPM: 128.0 SPO2: 85.0
+Temperatur: 40.0 BPM: 110.0 SPO2: 107.0

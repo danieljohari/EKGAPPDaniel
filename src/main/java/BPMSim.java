@@ -2,7 +2,7 @@ public class BPMSim {
 
     double getBPM() throws InterruptedException {
 
-        while (true) {
+
             int alder = 25;
             int maxBPM = 220 - alder;
             double targetHrRandom = Math.random() * maxBPM;
@@ -10,7 +10,7 @@ public class BPMSim {
 
 
 
-            Thread.sleep(100);
+            Thread.sleep(10);
             double targetHR = (targetHrRandom + targetHrMin) / 2;
             targetHR = Math.round(targetHR);
             //System.out.println(targetHR); //test
@@ -22,4 +22,4 @@ public class BPMSim {
         }
     }
 
-}
+

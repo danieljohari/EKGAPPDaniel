@@ -1,8 +1,8 @@
-public class TempSim {
+public class TempSim  {
     double getTemp() throws InterruptedException {
 
-        while(true) {
-            Thread.sleep(100);
+
+            Thread.sleep(10);
             double value =  Math.random()*60 + 150;
             // tilfældigt tal, der ganges med 60 + 150 for at få en given værdi
 
@@ -12,7 +12,7 @@ public class TempSim {
 
 
             return temp;
-        }
+
     }
 }
 
