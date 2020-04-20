@@ -1,14 +1,10 @@
 import javafx.application.Platform;
-import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Polyline;
-
 import java.io.PrintWriter;
-
-import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
 public class EkgGUIController {
@@ -19,9 +15,12 @@ public class EkgGUIController {
     private double maxBPM = 0.0;
     private double maxSPO2 = 0.0;
     private  EKGAPP ekgapp;
+
     private PrintWriter pw;
     public TextField fornavnText;
-    public Limit limit;
+    public TextField efternavnText;
+    public TextField alderText;
+    public Label konValgt;
     public Label bpmLabel;
     public Label tempLabel;
     public Label spo2Label;
@@ -138,7 +137,7 @@ public class EkgGUIController {
     public void manKnap(MouseEvent mouseEvent){
         Platform.runLater(new Runnable() {
             public void run() {
-                konLabel.setText("Valgt: Mand");
+                konValgt.setText("Mand");
             }
         });
     }
@@ -146,7 +145,7 @@ public class EkgGUIController {
     public void kvindeKnap(MouseEvent mouseEvent){
         Platform.runLater(new Runnable() {
             public void run() {
-                konLabel.setText("Valgt: Kvinde");
+                konValgt.setText("Kvinde");
             }
         });
     }
@@ -191,6 +190,14 @@ public class EkgGUIController {
         Platform.runLater(new Runnable() {
             public void run() {
 
+            String fornavn = fornavnText.getText();
+            String efternavn = efternavnText.getText();
+            String alder = alderText.getText();
+            String kon = konValgt.getText();
+
+            String dataPerson = fornavn +" " + efternavn + ", " + alder + ", " + kon;
+
+                System.out.println(dataPerson);
 
 
 

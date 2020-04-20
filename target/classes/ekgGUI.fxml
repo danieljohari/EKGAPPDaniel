@@ -36,10 +36,10 @@
             <Label text="Efternavn:" GridPane.rowIndex="1" />
             <Label text="Alder:" GridPane.rowIndex="2" />
             <Label text="Køn:" GridPane.rowIndex="3" />
-            <Label fx:id="konLabel" onMouseClicked="#manKnap" prefHeight="17.0" prefWidth="103.0" text="Valgt: " GridPane.rowIndex="4" />
-            <TextField prefHeight="26.0" prefWidth="150.0" text="Indtast Fornavn" GridPane.columnIndex="1" fx:id="fornavnText" />
-            <TextField text="Indtast Efternavn" GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="efternavnText"  />
-            <TextField text="Indtast Alder" GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="alderText" />
+            <Label fx:id="konLabel" onMouseClicked="#manKnap" prefHeight="18.0" prefWidth="50.0" text="Valgt: " GridPane.rowIndex="4" />
+            <TextField fx:id="fornavnText" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" />
+            <TextField fx:id="efternavnText" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="alderText" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
                   <Button fx:id="manB" mnemonicParsing="false" onMouseClicked="#manKnap" prefHeight="26.0" prefWidth="82.0" style="-fx-border-color: blue;" text="Mand" />
@@ -49,9 +49,14 @@
             <Label GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
               <buttons>
-                <Button mnemonicParsing="false" text="Gem" fx:id="gemKnap" onMouseClicked="#gemTextKnap" />
+                <Button fx:id="gemKnap" mnemonicParsing="false" onMouseClicked="#gemTextKnap" text="Gem" />
               </buttons>
             </ButtonBar>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
+               <children>
+                  <Label fx:id="konValgt" layoutX="42.0" layoutY="19.0" prefHeight="18.0" prefWidth="53.0" text="" />
+               </children>
+            </AnchorPane>
          </children>
       </GridPane>
       <TextArea layoutX="639.0" layoutY="296.0" prefHeight="267.0" prefWidth="267.0" promptText="Skriv en kommentar" />

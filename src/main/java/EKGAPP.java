@@ -1,14 +1,8 @@
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import javax.management.monitor.Monitor;
-import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,12 +11,7 @@ import java.io.PrintWriter;
 
 public class EKGAPP extends Application {
 
-    /*
-        private static SPO2Sim spo2Sim;
-        private static BPMSim bpmSim;
-        private static TempSim tempSim;
 
-     */
     private static TempSim tempSim = new TempSim();
     private static BPMSim bpmSim = new BPMSim();
     private static SPO2Sim spo2Sim = new SPO2Sim();
@@ -30,9 +19,6 @@ public class EKGAPP extends Application {
     private static FileWriter fw;
     private static BufferedWriter bw;
     private static PrintWriter pw;
-
-
-
 
     public static void main(String[] args) throws IOException, InterruptedException {
         fw = new FileWriter("ekgMålinger.txt", true);
@@ -50,7 +36,8 @@ public class EKGAPP extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader loader = new FXMLLoader((getClass().getResource("ekgGUI.fxml")));
+
+        FXMLLoader loader = new FXMLLoader((getClass().getResource("ekgGui.fxml")));
         AnchorPane anchorPane = loader.load();
         primaryStage.setScene(new Scene(anchorPane));
         primaryStage.show();
