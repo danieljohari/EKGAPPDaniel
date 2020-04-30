@@ -1,16 +1,23 @@
+import com.sun.deploy.security.CertStore;
 import data.*;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Polyline;
+import javafx.stage.Stage;
+import java.io.IOException;
 import java.io.PrintWriter;
-
 import static java.lang.Math.sin;
 
-public class EkgGUIController implements BpmListener, TempListener, SPO2Listener {
+public class patientGUIController implements BpmListener, TempListener, SPO2Listener {
 
+    //PRÆCIS SAMME SOM LÆGEGUICONTROLLER UDOVER DER IKKE ER GRÆNSEVÆRDI
 
     private TempSim tempSim = new TempSim();
     private BPMSim bpmSim = new BPMSim();
@@ -18,7 +25,6 @@ public class EkgGUIController implements BpmListener, TempListener, SPO2Listener
     private double maxTemp =0.0;
     private double maxBPM = 0.0;
     private double maxSPO2 = 0.0;
-    private  EKGAPP ekgapp;
     private String efternavn;
     private String fornavn;
     private String alder;
@@ -44,10 +50,9 @@ public class EkgGUIController implements BpmListener, TempListener, SPO2Listener
     public Button bOn;
     public Button bOff;
     public Polyline polyline;
-    public EKGAPP getLimit;
-    private double bpm;
-    private double temp;
-    private double spo2;
+    private  BpmDAO bpmDAO = new BpmDAOSQLImpl();
+    private TempDAO tempDAO = new TempDAOSQLImpl();
+    private Spo2DAO spo2DAO = new Spo2DAOSQLImpl();
 
 
     public void ekgKnap(MouseEvent actionEvent) throws InterruptedException {
@@ -73,7 +78,7 @@ public class EkgGUIController implements BpmListener, TempListener, SPO2Listener
     public void tempKnap(MouseEvent mouseEvent) {
         TempSim tempSim = new TempSim();
         new Thread(tempSim).start();
-        tempSim.register((TempListener) this);
+        tempSim.register( this);
 
     }
 
@@ -120,7 +125,7 @@ public class EkgGUIController implements BpmListener, TempListener, SPO2Listener
     public void offKnap(MouseEvent mouseEvent){
         Platform.runLater(new Runnable() {
             public void run() {
-                offLabel.setText("Patient Monitoring System Shutting down....");
+                offLabel.setText("Patient Monitoring System Off");
                 offLabel.setStyle("-fx-text-fill: red");
 
             }
@@ -159,7 +164,9 @@ public class EkgGUIController implements BpmListener, TempListener, SPO2Listener
 
 
 
-    public void notifybpm(final double bpm) {
+    public void notifybpm(BpmDTO bpm) {
+        bpm.setCpr(fornavnText.getText());
+        bpmDAO.save(bpm);
         //TODO: Save data i en database
         //DBController.save(bpm,fornavn, efternavn, alder, kon, new Date() );
         Platform.runLater(new Runnable() {
@@ -167,7 +174,7 @@ public class EkgGUIController implements BpmListener, TempListener, SPO2Listener
 
                 bpmLabel.setText("Patientens BPM: " + bpm );
 
-                if (bpm >= maxBPM) {
+                if (bpm.getBpm() >= maxBPM) {
                     warningBPM.setText("Advarsel! BPM over " + maxBPM);
                 } else {
                     warningBPM.setText("");
@@ -181,12 +188,14 @@ public class EkgGUIController implements BpmListener, TempListener, SPO2Listener
     }
 
 
-    public void notifyTemp(final double temp) {
+    public void notifyTemp(TempDTO temp) {
+        temp.setCpr(fornavnText.getText());
+        tempDAO.save(temp);
         Platform.runLater(new Runnable() {
             public void run() {
 
                 tempLabel.setText("Patientens Temperatur: " + temp);
-                if (temp >= maxTemp){
+                if (temp.getTemp() >= maxTemp){
                     warningTemp.setText("Advarsel! Temperatur over " + maxTemp);
                 } else {
                     warningTemp.setText("");
@@ -195,16 +204,34 @@ public class EkgGUIController implements BpmListener, TempListener, SPO2Listener
         });
     }
 
-    public void notifySpo2(final double spo2) {
+    public void notifySpo2(Spo2DTO spo2) {
+        spo2.setCpr(fornavnText.getText());
+        spo2DAO.save(spo2);
         Platform.runLater(new Runnable() {
             public void run() {
 
                 spo2Label.setText("Patientens SPO2: " + spo2);
-                if( spo2 < maxSPO2) {
+                if( spo2.getSpo2() < maxSPO2) {
                     warningSPO2.setText("Advarsel! SPO2 under " + maxSPO2);
                 } else {
                     warningSPO2.setText("");
                 }
+            }
+        });
+    }
+    public void tilknap(final MouseEvent event){
+        Platform.runLater(new Runnable() {
+            public void run() {
+                Parent parLogin = null;
+                try {
+                    parLogin = FXMLLoader.load(getClass().getResource("loginGUI.fxml"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Scene sceneLogin = new Scene(parLogin);
+                Stage stageLogin = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stageLogin.setScene(sceneLogin);
+                stageLogin.show();
             }
         });
     }

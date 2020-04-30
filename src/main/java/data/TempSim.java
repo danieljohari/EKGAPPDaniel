@@ -1,15 +1,20 @@
 package data;
 
+import java.sql.Timestamp;
+
 public class TempSim implements Runnable, TempSampler {
 
     TempListener tempListener;
+
+
+
     public void register(TempListener tempListener) {
         this.tempListener = tempListener;
     }
 
     double getTemp()  {
 
-
+// TEMP SIM
 
             double value =  Math.random()*60 + 150;
             // tilfældigt tal, der ganges med 60 + 150 for at få en given værdi
@@ -27,7 +32,10 @@ public class TempSim implements Runnable, TempSampler {
         while (true){
             try {
             if (tempListener != null){
-                tempListener.notifyTemp(getTemp());
+                TempDTO tempDTO = new TempDTO();
+                tempDTO.setTemp(getTemp());
+                tempDTO.setTime(new Timestamp(System.currentTimeMillis()));
+                tempListener.notifyTemp(tempDTO);
             }
 
                 Thread.sleep(10000);
