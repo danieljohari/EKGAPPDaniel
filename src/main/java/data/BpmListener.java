@@ -1,7 +1,7 @@
 package data;
 
 // interface bpm simulatoren, med notify() metoden
-//notify() metoden trækker en enkelt tråd ud, her er det bpm.
+// Bliver notified når der kommer ny måling.
 public interface BpmListener {
     public void notifybpm(BpmDTO bpm);
 

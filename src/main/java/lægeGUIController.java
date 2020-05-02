@@ -97,12 +97,9 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
        spo2Sim.register(this);
     }
 
-    public void startRecord(MouseEvent mouseEvent){
-        this.record = !this.record;
 
-    }
 
-//Mand knap vælger køn
+//Mandknap vælger køn
     public void manKnap(MouseEvent mouseEvent){
         Platform.runLater(new Runnable() {
             public void run() {

@@ -18,14 +18,14 @@ public class DBTester {
            // System.out.println("skriv en temp;");
           //  String Temp = scanner.next();
             Statement statement = connection.createStatement();
-            ResultSet show_tables = statement.executeQuery("SELECT * FROM TempMål WHERE temp > 39");
+            ResultSet show_tables = statement.executeQuery("SELECT * FROM BPMMål WHERE BPM > 120");
 
             System.out.println("got a result with nr of columns");
             System.out.println(show_tables.getMetaData().getColumnCount());
             while (show_tables.next()){
-                System.out.println("TempId: " + show_tables.getString(1));
+                System.out.println("BPMId: " + show_tables.getString(1));
                 System.out.println("CPR: " + show_tables.getString(2));
-                System.out.println("Temp: " + show_tables.getString(3));
+                System.out.println("BPM: " + show_tables.getString(3));
                 System.out.println(" ");
                 }
             connection.close();

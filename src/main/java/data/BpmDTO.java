@@ -2,7 +2,8 @@ package data;
 
 import java.sql.Timestamp;
 
-public class BpmDTO {
+public class BpmDTO { // DTO = DATA TRANSFER OBJECT - DVS fører data videre mellem processerne
+    //Så herfra til sampler og listener og derfra til implSQL og videre til my SQL. Klassen indeholder metoderne til det.
     private double bpm;
     private String cpr;
     private Timestamp time;
