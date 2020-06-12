@@ -12,10 +12,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Polyline;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.LinkedList;
+
 import static java.lang.Math.sin;
 
 //Implementerer SIM interfaces
-public class lægeGUIController implements BpmListener, TempListener, SPO2Listener {
+public class lægeGUIController implements BpmListener, TempListener, SPO2Listener, EkgListener {
 
     private double maxTemp =0.0;
     private double maxBPM = 0.0;
@@ -46,14 +48,13 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
     public Polyline polyline;
     public LineChart lineChart;
     public TextField cprText;
-    private boolean record;
     private BpmDAO bpmDAO = new BpmDAOSQLImpl();
     private TempDAO tempDAO = new TempDAOSQLImpl();
     private Spo2DAO spo2DAO = new Spo2DAOSQLImpl();
-
+    private EkgDAO ekgDAO = new EkgDAOSQLImpl();
+    private ThreadEx threadEx = new ThreadEx();
 
     public void ekgKnap(MouseEvent actionEvent) {
-
         //alt det her tager tid, og får sin egen tråd.
         //EKG TEGNING VIA POLYLINE
         new Thread(new Runnable() {
@@ -65,15 +66,32 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
                     double y = 300 * Math.random()*sin(3.14*2 - 50);
 
                     polyline.getPoints().addAll(i * 10.0,y) ;
+
+
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    threadEx.t1.start();
+                    threadEx.t2.start();
+                    threadEx.t3.start();
+
+                    try {
+                        threadEx.t1.join();
+                        threadEx.t2.join();
+                        threadEx.t3.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
+
+
+
+                }
                 }
 
         }).start();
+        threadEx.registerEkgListener(this);
     }
 
     //Temp knap, registerer temp fra class og interface
@@ -163,7 +181,7 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
 
             String dataPerson = fornavn +" " + efternavn + ", " + alder + ", " + kon;
 
-                System.out.println(dataPerson);
+                //System.out.println(dataPerson);
 
             }
 
@@ -243,6 +261,20 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
         });
     }
 
+
+    public void notifyEkg(LinkedList<Integer> ekgDTO) {
+        for (Integer i: ekgDTO) {
+            ekgDAO.savebatch(ekgDTO);
+
+            Platform.runLater(new Runnable() {
+                public void run() {
+
+
+                }
+            });
+        }
+
+    }
 }
 
 

@@ -1,0 +1,136 @@
+import data.BpmListener;
+import data.EkgListener;
+import data.EkgSampler;
+
+import java.util.LinkedList;
+
+// This class has a list, producer (adds items to list
+// and consumber (removes items).
+public class PC implements EkgSampler {
+   private SerialportConnector serialportConnector = new SerialportConnector(0);
+
+    // Create a list shared by producer and consumer
+    // Size of list is 2.
+
+    public LinkedList<Integer> guiList = new LinkedList<>();
+    public LinkedList<Integer> dbList = new LinkedList<>();
+    int capacity = 1000;
+    private EkgListener listener;
+
+    // Function called by producer thread
+    public void produce() throws InterruptedException {
+
+        while (true) {
+            synchronized (this) {
+
+                // producer thread waits while list
+                // is full
+                while (guiList.size() == capacity && dbList.size() == capacity)
+                    wait();
+                int[] value = serialportConnector.getData();
+
+                if (value != null) {
+                    for (int i : value) {
+                        guiList.add(i);
+                        dbList.add(i);
+                        //System.out.println("Producer produced - "
+                                //+ i);
+                    }
+                }
+
+
+
+                //System.out.println(guiList.size());
+
+                // to insert the jobs in the list
+
+
+                //list.add(value[1]);
+
+                // notifies the consumer thread that
+                // now it can start consuming
+                notify();
+
+                // makes the working of program easier
+                // to understand
+            }
+            Thread.sleep(2);
+        }
+    }
+
+    // Function called by consumer thread
+    public void guiConsume() throws InterruptedException {
+        while (true) {
+            LinkedList<Integer> consumedList;
+            synchronized (this) {
+                // consumer thread waits while list
+                // is empty
+
+                while (guiList.size() < 50)
+                    //System.out.println("waiting");
+                    wait();
+
+                // to retrive the ifrst job in the list
+                consumedList = guiList;
+                if ( listener != null){
+                    listener.notifyEkg(consumedList);
+                }
+                guiList = new LinkedList<>();
+
+
+                // Wake up producer thread
+                notify();
+
+                // and sleep
+
+            }
+           // System.out.println("Consumer consumed-");
+
+            for (Integer i :consumedList) {
+                //System.out.println("godt nummer:" +i);
+
+            }
+            Thread.sleep(2);
+        }
+    }
+
+    public void dbConsume() throws InterruptedException {
+        while (true) {
+            LinkedList<Integer> consumedList;
+            synchronized (this) {
+                // consumer thread waits while list
+                // is empty
+
+                while (dbList.size() < 50)
+                    //System.out.println("waiting");
+                    wait();
+
+                // to retrive the ifrst job in the list
+                consumedList = dbList;
+                dbList = new LinkedList<>();
+
+
+                // Wake up producer thread
+                notify();
+
+                // and sleep
+
+            }
+            //System.out.println("Consumer consumed- 2 DB CONSUMED");
+
+            for (Integer i :consumedList) {
+                //System.out.println("godt nummer:" +i);
+
+            }
+            Thread.sleep(2);
+        }
+    }
+
+
+    @Override
+    public void register(EkgListener ekgListener) {
+        this.listener = ekgListener;
+    }
+}
+
+

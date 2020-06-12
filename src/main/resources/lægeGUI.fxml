@@ -33,33 +33,33 @@
             <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Navn:" />
-            <Label text="Efternavn:" GridPane.rowIndex="1" />
-            <Label text="Alder:" GridPane.rowIndex="2" />
-            <Label text="Køn:" GridPane.rowIndex="3" />
-            <Label fx:id="konLabel" onMouseClicked="#manKnap" prefHeight="18.0" prefWidth="50.0" text="Valgt: " GridPane.rowIndex="4" />
-            <TextField fx:id="fornavnText" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" />
-            <TextField fx:id="efternavnText" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="alderText" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Navn:" GridPane.rowIndex="1" />
+            <Label text="Efternavn:" GridPane.rowIndex="2" />
+            <Label text="Alder:" GridPane.rowIndex="3" />
+            <Label text="Køn:" GridPane.rowIndex="4" />
+            <TextField fx:id="fornavnText" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="efternavnText" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
-                  <Button fx:id="manB" mnemonicParsing="false" onMouseClicked="#manKnap" prefHeight="26.0" prefWidth="82.0" style="-fx-border-color: blue;" text="Mand" />
-                  <Button fx:id="kvindeB" mnemonicParsing="false" onMouseClicked="#kvindeKnap" prefHeight="26.0" prefWidth="76.0" style="-fx-border-color: Magenta;" text="Kvinde" />
+                  <TextField fx:id="alderText" />
                </children>
             </FlowPane>
             <Label GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
               <buttons>
-                <Button fx:id="gemKnap" mnemonicParsing="false" onMouseClicked="#gemTextKnap" text="Gem" />
+                  <Button fx:id="manB" mnemonicParsing="false" onMouseClicked="#manKnap" prefHeight="26.0" prefWidth="82.0" style="-fx-border-color: blue;" text="Mand" />
+                  <Button fx:id="kvindeB" mnemonicParsing="false" onMouseClicked="#kvindeKnap" prefHeight="26.0" prefWidth="76.0" style="-fx-border-color: Magenta;" text="Kvinde" />
               </buttons>
             </ButtonBar>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="5">
                <children>
                   <Label fx:id="konValgt" layoutX="42.0" layoutY="19.0" prefHeight="18.0" prefWidth="53.0" text="" />
+                  <Label fx:id="konLabel" layoutX="3.0" layoutY="19.0" onMouseClicked="#manKnap" prefHeight="18.0" prefWidth="50.0" text="Valgt: " />
                </children>
             </AnchorPane>
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" fx:id="cprText" />
-            <Label text="CPR:" GridPane.rowIndex="5" fx:id="cprLabel" />
+            <TextField fx:id="cprText" GridPane.columnIndex="1" />
+            <Label fx:id="cprLabel" text="CPR:" />
+          <Button fx:id="gemKnap" mnemonicParsing="false" onMouseClicked="#gemTextKnap" text="Gem" GridPane.columnIndex="1" GridPane.rowIndex="5" />
          </children>
       </GridPane>
       <TextArea layoutX="639.0" layoutY="340.0" prefHeight="223.0" prefWidth="267.0" promptText="Skriv en kommentar" />
