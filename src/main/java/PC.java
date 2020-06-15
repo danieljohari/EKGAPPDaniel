@@ -37,6 +37,7 @@ public class PC implements EkgSampler {
                     for (Integer i : value) {
                         guiList.add(i);
                         dbList.add(i);
+                        System.out.println(i);
                     }
 
 
