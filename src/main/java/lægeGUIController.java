@@ -269,7 +269,7 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
     }
 
 
-    public void notifyEkg(LinkedList<Integer> ekgdtos) {
+    public void notifyEkg(LinkedList<EKGDTO> ekgdtos) {
 
 
         //for (Integer i: ekgdtos) {

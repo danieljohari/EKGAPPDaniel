@@ -1,3 +1,4 @@
+
 import data.EKGDTO;
 import data.EkgListener;
 import data.EkgSampler;
@@ -13,8 +14,8 @@ public class PC implements EkgSampler {
     // Create a list shared by producer and consumer
     // Size of list is 2.
 
-    public LinkedList<Integer> guiList = new LinkedList<>();
-    public LinkedList<Integer> dbList = new LinkedList<>();
+    public LinkedList<EKGDTO> guiList = new LinkedList<>();
+    public LinkedList<EKGDTO> dbList = new LinkedList<>();
     int capacity = 1000;
     private EkgListener listener;
 
@@ -30,11 +31,11 @@ public class PC implements EkgSampler {
                 // is full
                 while (guiList.size() == capacity && dbList.size() == capacity)
                     wait();
-                List<Integer> value = serialportConnector.getData();
+                List<EKGDTO> value = serialportConnector.getData();
 
                 if (value != null) {
 
-                    for (Integer i : value) {
+                    for (EKGDTO i : value) {
                         guiList.add(i);
                         dbList.add(i);
                         //System.out.println(i);
@@ -68,7 +69,7 @@ public class PC implements EkgSampler {
     // Function called by consumer thread
     public void guiConsume() throws InterruptedException {
         while (true) {
-            LinkedList<Integer> consumedList;
+            LinkedList<EKGDTO> consumedList;
             synchronized (this) {
                 // consumer thread waits while list
                 // is empty
@@ -100,7 +101,7 @@ public class PC implements EkgSampler {
 
     public void dbConsume() throws InterruptedException {
         while (true) {
-            LinkedList<Integer> consumedList;
+            LinkedList<EKGDTO> consumedList;
             synchronized (this) {
                 // consumer thread waits while list
                 // is empty
@@ -122,7 +123,7 @@ public class PC implements EkgSampler {
             }
             //System.out.println("Consumer consumed- 2 DB CONSUMED");
 
-            for (Integer i :consumedList) {
+            for (EKGDTO i :consumedList) {
                 //System.out.println("godt nummer:" +i);
 
             }

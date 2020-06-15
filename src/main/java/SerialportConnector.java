@@ -1,3 +1,4 @@
+import data.EKGDTO;
 import jssc.SerialPort;
 import jssc.SerialPortException;
 import jssc.SerialPortList;
@@ -29,7 +30,7 @@ public class SerialportConnector {
     }
 
 
-    public List<Integer> getData() {//metoden oprettes
+    public List<EKGDTO> getData() {//metoden oprettes
         try {
             if (serialPort.getInputBufferBytesCount() >= 12) {
                 result = serialPort.readString();
@@ -37,10 +38,10 @@ public class SerialportConnector {
                 if (result != null && result.charAt(result.length() - 1) == ' ') ;
                 result = result.substring(0, result.length() - 1);
                 rawValues = result.split(" ");
-                List<Integer> values = new LinkedList<>(); //istedet for int values, lav en EKG DTO med timestamp
+                List<EKGDTO> values = new LinkedList<>(); //istedet for int values, lav en EKG DTO med timestamp
                 for (int i = 0; i < rawValues.length; i++) {
                     if (rawValues[i] != null && !rawValues[i].equals("")) {
-                        values.add(Integer.parseInt(rawValues[i]));
+
                     }
                 }
                 return values;
