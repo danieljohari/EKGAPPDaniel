@@ -2,6 +2,9 @@ import jssc.SerialPort;
 import jssc.SerialPortException;
 import jssc.SerialPortList;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class SerialportConnector {
     private SerialPort serialPort = null;
     private String result = null;
@@ -26,7 +29,7 @@ public class SerialportConnector {
     }
 
 
-    public int[] getData() {//metoden oprettes
+    public List<Integer> getData() {//metoden oprettes
         try {
             if (serialPort.getInputBufferBytesCount() >= 12) {
                 result = serialPort.readString();
@@ -34,9 +37,11 @@ public class SerialportConnector {
                 if (result != null && result.charAt(result.length() - 1) == ' ') ;
                 result = result.substring(0, result.length() - 1);
                 rawValues = result.split(" ");
-                int[] values = new int[rawValues.length]; //istedet for int values, lav en EKG DTO med timestamp
+                List<Integer> values = new LinkedList<>(); //istedet for int values, lav en EKG DTO med timestamp
                 for (int i = 0; i < rawValues.length; i++) {
-                    values[i] = Integer.parseInt(rawValues[i]);
+                    if (rawValues[i] != null && !rawValues[i].equals("")) {
+                        values.add(Integer.parseInt(rawValues[i]));
+                    }
                 }
                 return values;
             }

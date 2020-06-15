@@ -7,13 +7,13 @@ import java.util.List;
 public class EkgDAOSQLImpl implements EkgDAO {
 
 
-    @Override
-    public void savebatch(LinkedList<Integer> batch) {
+
+    public void savebatch(LinkedList<EKGDTO> ekgBatch) {
         Connection connection = Connector.getConnection();
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement("INSERT INTO EKGMål (CPR, EKGVolt, Tid) VALUES (?,?,?) ");
-            for (EKGDTO ekgDTO : batch) {
+            for (EKGDTO ekgDTO : ekgBatch) {
                 preparedStatement.setString(1, ekgDTO.getCpr());
                 preparedStatement.setDouble(2, ekgDTO.getEkg());
                 preparedStatement.setTimestamp(3, ekgDTO.getTime());

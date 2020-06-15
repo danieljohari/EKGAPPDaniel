@@ -8,6 +8,6 @@ public interface EkgDAO {
 
     List<EKGDTO> load(String cpr);
 
-    void savebatch(LinkedList<Integer> batch);
+    void savebatch(LinkedList<EKGDTO> ekgBatch);
 
 }

@@ -1,8 +1,9 @@
-import data.BpmListener;
+import data.EKGDTO;
 import data.EkgListener;
 import data.EkgSampler;
 
 import java.util.LinkedList;
+import java.util.List;
 
 // This class has a list, producer (adds items to list
 // and consumber (removes items).
@@ -17,6 +18,8 @@ public class PC implements EkgSampler {
     int capacity = 1000;
     private EkgListener listener;
 
+
+
     // Function called by producer thread
     public void produce() throws InterruptedException {
 
@@ -27,15 +30,18 @@ public class PC implements EkgSampler {
                 // is full
                 while (guiList.size() == capacity && dbList.size() == capacity)
                     wait();
-                int[] value = serialportConnector.getData();
+                List<Integer> value = serialportConnector.getData();
 
                 if (value != null) {
-                    for (int i : value) {
+
+                    for (Integer i : value) {
                         guiList.add(i);
                         dbList.add(i);
-                        //System.out.println("Producer produced - "
-                                //+ i);
                     }
+
+
+
+
                 }
 
 
@@ -86,10 +92,7 @@ public class PC implements EkgSampler {
             }
            // System.out.println("Consumer consumed-");
 
-            for (Integer i :consumedList) {
-                //System.out.println("godt nummer:" +i);
 
-            }
             Thread.sleep(2);
         }
     }

@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.LinkedList;
 
+import static java.lang.Math.multiplyExact;
 import static java.lang.Math.sin;
 
 //Implementerer SIM interfaces
@@ -48,11 +49,17 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
     public Polyline polyline;
     public LineChart lineChart;
     public TextField cprText;
+    public Label ekgLabel;
+    public Label ekgTekstData;
+    private LinkedList<Integer> guiList;
+    private EKGDTO ekgdto;
+    private LinkedList listEKg = new LinkedList();
     private BpmDAO bpmDAO = new BpmDAOSQLImpl();
     private TempDAO tempDAO = new TempDAOSQLImpl();
     private Spo2DAO spo2DAO = new Spo2DAOSQLImpl();
     private EkgDAO ekgDAO = new EkgDAOSQLImpl();
     private ThreadEx threadEx = new ThreadEx();
+
 
     public void ekgKnap(MouseEvent actionEvent) {
         //alt det her tager tid, og får sin egen tråd.
@@ -262,20 +269,34 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
     }
 
 
-    public void notifyEkg(LinkedList<Integer> ekgDTO) {
-        for (Integer i: ekgDTO) {
-            ekgDAO.savebatch(ekgDTO);
+    public void notifyEkg(LinkedList<Integer> ekgdtos) {
+
+
+        //for (Integer i: ekgdtos) {
+           // ekgDAO.savebatch(i);
+           // System.out.println(ekgdtos);
+            //ekgdto.setCpr(cprText.getText());
+            //ekgDAO.savebatch((List<data.ekgdto>) listEKg.get(i));
+           // System.out.println("RR:" + (List<data.ekgdto>) listEKg.get(i));
+           // System.out.println(""+i);
 
             Platform.runLater(new Runnable() {
                 public void run() {
-
+                    polyline.getPoints().setAll();
+                ekgTekstData.setText(String.valueOf(ekgdtos.get(0))); //Polyline tegn
 
                 }
             });
+
+
         }
 
+
+
     }
-}
+
+
+//}
 
 
 
