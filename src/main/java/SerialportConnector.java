@@ -3,6 +3,7 @@ import jssc.SerialPort;
 import jssc.SerialPortException;
 import jssc.SerialPortList;
 
+import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -41,12 +42,17 @@ public class SerialportConnector {
                 List<EKGDTO> values = new LinkedList<>(); //istedet for int values, lav en EKG DTO med timestamp
                 for (int i = 0; i < rawValues.length; i++) {
                     if (rawValues[i] != null && !rawValues[i].equals("")) {
+                        EKGDTO ekgdto = new EKGDTO();
+                        ekgdto.setEkg(Double.parseDouble(rawValues[i]));
+                        ekgdto.setTime(new Timestamp(System.currentTimeMillis()));
+                        values.add(ekgdto);
+                        Thread.sleep(1);
 
                     }
                 }
                 return values;
             }
-        } catch (SerialPortException e) {
+        } catch (SerialPortException | InterruptedException e) {
             e.printStackTrace();
         }
         return null;

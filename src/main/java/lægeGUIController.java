@@ -4,7 +4,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -13,6 +16,7 @@ import javafx.scene.shape.Polyline;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.List;
 
 import static java.lang.Math.multiplyExact;
 import static java.lang.Math.sin;
@@ -27,6 +31,7 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
     private String fornavn;
     private String alder;
     private String kon;
+    double x = 0.0;
     public TextField fornavnText;
     public TextField efternavnText;
     public TextField alderText;
@@ -51,9 +56,6 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
     public TextField cprText;
     public Label ekgLabel;
     public Label ekgTekstData;
-    private LinkedList<Integer> guiList;
-    private EKGDTO ekgdto;
-    private LinkedList listEKg = new LinkedList();
     private BpmDAO bpmDAO = new BpmDAOSQLImpl();
     private TempDAO tempDAO = new TempDAOSQLImpl();
     private Spo2DAO spo2DAO = new Spo2DAOSQLImpl();
@@ -71,9 +73,6 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
                 for (int i = 0; i < 40; i++) {
 
                     double y = 300 * Math.random()*sin(3.14*2 - 50);
-
-                    polyline.getPoints().addAll(i * 10.0,y) ;
-
 
                     try {
                         Thread.sleep(1000);
@@ -282,8 +281,28 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
 
             Platform.runLater(new Runnable() {
                 public void run() {
-                    polyline.getPoints().setAll();
-                ekgTekstData.setText(String.valueOf(ekgdtos.get(0))); //Polyline tegn
+                    List<Double> measuresPlot = new LinkedList<>();
+                    final CategoryAxis xAxis = new CategoryAxis();
+                    final NumberAxis yAxis = new NumberAxis();
+                    xAxis.setLabel("Tid i micros");
+                    yAxis.setLabel("EKG Data");
+                    final LineChart<String,Number> lineChart = new LineChart<String, Number>(xAxis,yAxis);
+                    lineChart.setTitle("EKG");
+                    XYChart.Series series = new XYChart.Series();
+                    series.setName("EKG 1");
+
+                    for (int i = 0; i < ekgdtos.size(); i++) {
+                        measuresPlot.add(x);
+                        x++;
+                        if (x > 600){
+                            polyline.getPoints().setAll();
+                            x =0;
+                        }
+                        measuresPlot.add(ekgdtos.get(i).getEkg());
+                    }
+                    series.getData().addAll(measuresPlot,x);
+                    polyline.getPoints().addAll(measuresPlot);
+                ekgTekstData.setText(String.valueOf(ekgdtos.get(0).getEkg())); //Polyline tegn
 
                 }
             });

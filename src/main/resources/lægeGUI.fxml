@@ -81,7 +81,7 @@
             <Image url="@LOGOHVID'.JPG" />
          </image>
       </ImageView>
-      <Polyline fx:id="polyline" layoutX="223.0" layoutY="343.0" onMouseClicked="#ekgKnap" strokeType="INSIDE" />
+      <Polyline fx:id="polyline" layoutX="250.0" layoutY="100.0" onMouseClicked="#ekgKnap" strokeType="INSIDE" />
       <Label fx:id="warningTemp" layoutX="242.0" layoutY="101.0" style="-fx-text-fill: red;" />
       <Label fx:id="warningBPM" layoutX="242.0" layoutY="154.0" style="-fx-text-fill: red;" />
       <Label fx:id="warningSPO2" layoutX="242.0" layoutY="206.0" style="-fx-text-fill: red;" />
