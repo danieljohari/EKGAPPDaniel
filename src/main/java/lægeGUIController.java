@@ -273,35 +273,43 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
             Platform.runLater(new Runnable() {
                 public void run() {
 
-                    List<Double> measuresPlot = new LinkedList<>();
-                    final NumberAxis xAxis = new NumberAxis();
-                    final NumberAxis yAxis = new NumberAxis();
 
-                    xAxis.setLabel("Tid i Micros");
 
-                    lineChart = new LineChart<>(xAxis, yAxis);
+
+
+
+
                     lineChart.setTitle("EKG GRAF");
+
 
                     XYChart.Series series = new XYChart.Series();
                     series.setName("Vores EKG data");
+                    Node line = series.getNode().lookup(".chart-series-area-line");
 
+
+                    /*
+                    series.getData().add(new XYChart.Data(1,23));
+                    series.getData().add(new XYChart.Data(2,21));
+                    series.getData().add(new XYChart.Data(3,26));
+                    series.getData().add(new XYChart.Data(4,123));
+
+                    lineChart.getData().add(series);
+                    */
 
                     for (int i = 0; i < ekgdtos.size(); i++) {
-                        measuresPlot.add(x);
+                        XYChart.Data data = new XYChart.Data(x, ekgdtos.get(i).getEkg());
+                        series.getData().add(data);
                         x++;
                         if (x > 600) {
                             //polyline.getPoints().setAll();
-                            series.getData().setAll();
+                            lineChart.getData().setAll();
                             x = 0;
                         }
-                        measuresPlot.add(ekgdtos.get(i).getEkg());
-
                     }
-                    for (int i = 0; i < ekgdtos.size(); i++) {
-                        series.getData().add(measuresPlot);
+                    lineChart.getData().add(series);
 
-                        lineChart.getData().add(series);
-                    }
+
+
 
 
 
