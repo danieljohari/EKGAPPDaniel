@@ -70,15 +70,6 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
 
             public void run() {
 
-                for (int i = 0; i < 40; i++) {
-
-                    double y = 300 * Math.random()*sin(3.14*2 - 50);
-
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                     threadEx.t1.start();
                     threadEx.t2.start();
                     threadEx.t3.start();
@@ -94,7 +85,7 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
 
 
                 }
-                }
+
 
         }).start();
         threadEx.registerEkgListener(this);
@@ -281,27 +272,42 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
 
             Platform.runLater(new Runnable() {
                 public void run() {
+
                     List<Double> measuresPlot = new LinkedList<>();
-                    final CategoryAxis xAxis = new CategoryAxis();
+                    final NumberAxis xAxis = new NumberAxis();
                     final NumberAxis yAxis = new NumberAxis();
-                    xAxis.setLabel("Tid i micros");
-                    yAxis.setLabel("EKG Data");
-                    final LineChart<String,Number> lineChart = new LineChart<String, Number>(xAxis,yAxis);
-                    lineChart.setTitle("EKG");
+
+                    xAxis.setLabel("Tid i Micros");
+
+                    lineChart = new LineChart<>(xAxis, yAxis);
+                    lineChart.setTitle("EKG GRAF");
+
                     XYChart.Series series = new XYChart.Series();
-                    series.setName("EKG 1");
+                    series.setName("Vores EKG data");
+
 
                     for (int i = 0; i < ekgdtos.size(); i++) {
                         measuresPlot.add(x);
                         x++;
-                        if (x > 600){
-                            polyline.getPoints().setAll();
-                            x =0;
+                        if (x > 600) {
+                            //polyline.getPoints().setAll();
+                            series.getData().setAll();
+                            x = 0;
                         }
                         measuresPlot.add(ekgdtos.get(i).getEkg());
+
                     }
-                    series.getData().addAll(measuresPlot,x);
-                    polyline.getPoints().addAll(measuresPlot);
+                    for (int i = 0; i < ekgdtos.size(); i++) {
+                        series.getData().add(measuresPlot);
+
+                        lineChart.getData().add(series);
+                    }
+
+
+
+                    //polyline.getPoints().addAll(measuresPlot);
+
+
                 ekgTekstData.setText(String.valueOf(ekgdtos.get(0).getEkg())); //Polyline tegn
 
                 }
