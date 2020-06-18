@@ -273,11 +273,11 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
                 series.setName("Vores EKG data");
 
                 for (int i = 0; i < ekgdtos.size(); i++) {
-                    if (ekgdtos.get(i).getEkg() < 300 ) {
+                    if (ekgdtos.get(i).getEkg() < 300 ) { //læst midt i strengen
                         // series.getData().remove(0);
 
                     }else {
-                        series.getData().add(new XYChart.Data<>(x, ekgdtos.get(i).getEkg()));
+                        series.getData().add(new XYChart.Data<>(x, ekgdtos.get(i).getEkg()-450)); //Båndstop filter Lav
 
                         x++;
                     }

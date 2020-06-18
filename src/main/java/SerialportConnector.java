@@ -22,7 +22,7 @@ public class SerialportConnector {
             serialPort.openPort();//porten åbnes
             serialPort.setRTS(true);//klar til at sende(ReadyToSend = true)
             serialPort.setDTR(true);//klar til at modtage(DataToReceive = true)
-            serialPort.setParams(115200, 8, 1, SerialPort.PARITY_NONE);//parametre bestemmes
+            serialPort.setParams(38400, 8, 1, SerialPort.PARITY_NONE);//parametre bestemmes
             serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);//kontrolere flowet af data
 
         } catch (Exception exception) {
@@ -43,10 +43,14 @@ public class SerialportConnector {
                 for (int i = 0; i < rawValues.length; i++) {
                     if (rawValues[i] != null && !rawValues[i].equals("")) {
                         EKGDTO ekgdto = new EKGDTO();
-                        ekgdto.setEkg(Double.parseDouble(rawValues[i]));
-                        ekgdto.setTime(new Timestamp(System.currentTimeMillis()));
-                        values.add(ekgdto);
-                        Thread.sleep(1);
+                        try {
+                            ekgdto.setEkg(Double.parseDouble(rawValues[i]));
+                            ekgdto.setTime(new Timestamp(System.currentTimeMillis()));
+                            values.add(ekgdto);
+                            Thread.sleep(1);
+                        } catch (NumberFormatException e) {
+                            System.err.println("Corrupt Data - Discarding: " + rawValues[i]);
+                        }
 
                     }
                 }
