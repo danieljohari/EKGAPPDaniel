@@ -74,7 +74,7 @@ public class PC implements EkgSampler {
                 // consumer thread waits while list
                 // is empty
 
-                while (guiList.size() < 50)
+                while (guiList.size() < 5)
                     //System.out.println("waiting");
                     wait();
 
@@ -95,23 +95,26 @@ public class PC implements EkgSampler {
            // System.out.println("Consumer consumed-");
 
 
-            Thread.sleep(2);
+
         }
     }
 
     public void dbConsume() throws InterruptedException {
         while (true) {
-            LinkedList<EKGDTO> consumedList;
+            LinkedList<EKGDTO> consumedListDB;
             synchronized (this) {
                 // consumer thread waits while list
                 // is empty
 
-                while (dbList.size() < 50)
+                while (dbList.size() < 200)
                     //System.out.println("waiting");
                     wait();
 
                 // to retrive the ifrst job in the list
-                consumedList = dbList;
+                consumedListDB = dbList;
+                if ( listener != null){
+                    listener.notifyEkgDb(consumedListDB);
+                }
                 dbList = new LinkedList<>();
 
 
@@ -123,11 +126,7 @@ public class PC implements EkgSampler {
             }
             //System.out.println("Consumer consumed- 2 DB CONSUMED");
 
-            for (EKGDTO i :consumedList) {
-                //System.out.println("godt nummer:" +i);
 
-            }
-            Thread.sleep(2);
         }
     }
 

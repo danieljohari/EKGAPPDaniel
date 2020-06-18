@@ -4,9 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,10 +14,8 @@ import javafx.scene.shape.Polyline;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.List;
 
-import static java.lang.Math.multiplyExact;
-import static java.lang.Math.sin;
+
 
 //Implementerer SIM interfaces
 public class lægeGUIController implements BpmListener, TempListener, SPO2Listener, EkgListener {
@@ -53,6 +49,7 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
     public Button bOff;
     public Polyline polyline;
     public LineChart lineChart;
+    XYChart.Series series = new XYChart.Series<>();
     public TextField cprText;
     public Label ekgLabel;
     public Label ekgTekstData;
@@ -63,9 +60,15 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
     private ThreadEx threadEx = new ThreadEx();
 
 
+
+
+
+
     public void ekgKnap(MouseEvent actionEvent) {
-        //alt det her tager tid, og får sin egen tråd.
-        //EKG TEGNING VIA POLYLINE
+        lineChart.setTitle("EKG GRAF");
+        lineChart.getData().add(series);
+
+
         new Thread(new Runnable() {
 
             public void run() {
@@ -258,78 +261,67 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
         });
     }
 
-
+   @Override
     public void notifyEkg(LinkedList<EKGDTO> ekgdtos) {
+       // final double[] min = {Double.MIN_VALUE};
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                final int Size = 1000;
+                lineChart.setCreateSymbols(false);
+                lineChart.setAnimated(false);
+                series.setName("Vores EKG data");
 
+                for (int i = 0; i < ekgdtos.size(); i++) {
+                    if (ekgdtos.get(i).getEkg() < 300 ) {
+                        // series.getData().remove(0);
 
-        //for (Integer i: ekgdtos) {
-           // ekgDAO.savebatch(i);
-           // System.out.println(ekgdtos);
-            //ekgdto.setCpr(cprText.getText());
-            //ekgDAO.savebatch((List<data.ekgdto>) listEKg.get(i));
-           // System.out.println("RR:" + (List<data.ekgdto>) listEKg.get(i));
-           // System.out.println(""+i);
+                    }else {
+                        series.getData().add(new XYChart.Data<>(x, ekgdtos.get(i).getEkg()));
 
-            Platform.runLater(new Runnable() {
-                public void run() {
-
-
-
-
-
-
-
-                    lineChart.setTitle("EKG GRAF");
-
-
-                    XYChart.Series series = new XYChart.Series();
-                    series.setName("Vores EKG data");
-                    Node line = series.getNode().lookup(".chart-series-area-line");
-
-
-                    /*
-                    series.getData().add(new XYChart.Data(1,23));
-                    series.getData().add(new XYChart.Data(2,21));
-                    series.getData().add(new XYChart.Data(3,26));
-                    series.getData().add(new XYChart.Data(4,123));
-
-                    lineChart.getData().add(series);
-                    */
-
-                    for (int i = 0; i < ekgdtos.size(); i++) {
-                        XYChart.Data data = new XYChart.Data(x, ekgdtos.get(i).getEkg());
-                        series.getData().add(data);
                         x++;
-                        if (x > 600) {
-                            //polyline.getPoints().setAll();
-                            lineChart.getData().setAll();
-                            x = 0;
-                        }
                     }
-                    lineChart.getData().add(series);
-
-
-
-
-
-
-                    //polyline.getPoints().addAll(measuresPlot);
-
-
-                ekgTekstData.setText(String.valueOf(ekgdtos.get(0).getEkg())); //Polyline tegn
-
                 }
-            });
 
+                if (x > Size) {
+                    x =0;
+                    series.getData().clear();
+                }
+                /*
+                for (int i = 0; i < ekgdtos.size(); i++) {
+                    ekgTekstData.setText(String.valueOf(ekgdtos.get(i).getEkg()));
+                }
 
-        }
+                 */
+            }
 
-
+        });
 
     }
 
 
-//}
+
+    @Override
+    public void notifyEkgDb(LinkedList<EKGDTO> ekgdtoo) {
+
+        Thread t4 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < ekgdtoo.size() ; i++) {
+                    ekgdtoo.get(i).setCpr(cprText.getText());
+                }
+                ekgDAO.savebatch(ekgdtoo);
+            }
+        }); t4.start();
+        try {
+            t4.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+}
 
 
 

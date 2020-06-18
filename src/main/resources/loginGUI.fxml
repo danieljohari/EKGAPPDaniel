@@ -13,8 +13,8 @@
             <Font size="35.0" />
          </font>
       </Label>
-      <TextField fx:id="txtUsername" layoutX="200.0" layoutY="155.0" promptText="Username" />
-      <PasswordField fx:id="txtPassword" layoutX="200.0" layoutY="200.0" promptText="Password" />
+      <TextField fx:id="txtUsername" layoutX="200.0" layoutY="155.0" promptText="Username" >user</TextField>
+      <PasswordField fx:id="txtPassword" layoutX="200.0" layoutY="200.0" promptText="Password" >pass</PasswordField>
       <ImageView fx:id="LOGO" fitHeight="86.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@LOGOHVID'.JPG" />

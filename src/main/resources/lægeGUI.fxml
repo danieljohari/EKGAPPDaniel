@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -11,18 +12,22 @@
    <children>
       <Button fx:id="bOff" layoutX="32.0" layoutY="481.0" mnemonicParsing="false" onMouseClicked="#offKnap" prefHeight="56.0" prefWidth="58.0" style="-fx-background-color: red;" text="Off" />
       <Button fx:id="bOn" layoutX="29.0" layoutY="402.0" mnemonicParsing="false" onMouseClicked="#onKnap" prefHeight="56.0" prefWidth="58.0" style="-fx-background-color: lightgreen;" text="On" />
-      <LineChart fx:id="lineChart" cache="true" cacheHint="SCALE_AND_ROTATE" depthTest="DISABLE" onMouseClicked="#ekgKnap" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="101.0" AnchorPane.rightAnchor="307.0" AnchorPane.topAnchor="319.0">
+      <LineChart fx:id="lineChart" alternativeRowFillVisible="false" cache="true" createSymbols="false" depthTest="DISABLE" disable="true" legendVisible="false" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#ekgKnap" prefWidth="1000" style="-fx-background-color: none;" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="101.0" AnchorPane.rightAnchor="307.0" AnchorPane.topAnchor="319.0">
         <xAxis>
-          <NumberAxis side="BOTTOM" />
+
+          <NumberAxis autoRanging="false" prefWidth="1000" side="BOTTOM" upperBound="1000.0" />
         </xAxis>
         <yAxis>
-          <NumberAxis prefHeight="288.0" prefWidth="28.0" side="LEFT" upperBound="1000.0" />
+          <NumberAxis autoRanging="false" prefHeight="288.0" prefWidth="28.0" side="LEFT" upperBound="1000.0" />
         </yAxis>
+         <cursor>
+            <Cursor fx:constant="MOVE" />
+         </cursor>
       </LineChart>
-      <GridPane layoutX="636.0" prefHeight="566.0" prefWidth="287.0" style="-fx-background-color: lightblue;">
+      <GridPane prefHeight="566.0" prefWidth="287.0" style="-fx-background-color: lightblue;" AnchorPane.rightAnchor="0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="133.0" minWidth="10.0" prefWidth="102.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="256.80000000000007" minWidth="10.0" prefWidth="175.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="133.0" minWidth="10.0" prefWidth="108.8" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="256.80000000000007" minWidth="10.0" prefWidth="178.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -31,6 +36,7 @@
             <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="10.0" percentHeight="100.0" prefHeight="100.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label text="Navn:" GridPane.rowIndex="1" />
@@ -57,25 +63,25 @@
                   <Label fx:id="konLabel" layoutX="3.0" layoutY="19.0" onMouseClicked="#manKnap" prefHeight="18.0" prefWidth="50.0" text="Valgt: " />
                </children>
             </AnchorPane>
-            <TextField fx:id="cprText" GridPane.columnIndex="1" />
+             <TextField fx:id="cprText" GridPane.columnIndex="1" >123456-1234</TextField>
             <Label fx:id="cprLabel" text="CPR:" />
           <Button fx:id="gemKnap" mnemonicParsing="false" onMouseClicked="#gemTextKnap" text="Gem" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextArea prefHeight="137.0" prefWidth="178.0" promptText="Skriv en kommentar" GridPane.columnIndex="1" GridPane.rowIndex="6" />
          </children>
       </GridPane>
-      <TextArea layoutX="639.0" layoutY="340.0" prefHeight="223.0" prefWidth="267.0" promptText="Skriv en kommentar" />
       <Label fx:id="offLabel" layoutX="222.0" layoutY="22.0" onMouseClicked="#onKnap" onMouseDragEntered="#offKnap" prefHeight="40.0" prefWidth="218.0" text="Patient Monitoring System Offline">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
       <Label fx:id="tempLabel" layoutX="13.0" layoutY="101.0" onMouseClicked="#tempKnap" text="Patientens Temperatur:" />
-      <Button fx:id="tempB" layoutX="462.0" layoutY="88.0" mnemonicParsing="false" onMouseClicked="#tempKnap" prefHeight="27.0" prefWidth="169.0" style="-fx-border-color: blue;" text="Start TempMåling" />
+      <Button fx:id="tempB" layoutX="462.0" layoutY="88.0" mnemonicParsing="false" onMouseClicked="#tempKnap" prefHeight="27.0" prefWidth="149.0" style="-fx-border-color: blue;" text="Start TempMåling" />
       <Label fx:id="bpmLabel" layoutX="15.0" layoutY="154.0" onMouseClicked="#BPMKnap" text="Patientens BPM:" />
-      <Button fx:id="bpmB" layoutX="460.0" layoutY="128.0" mnemonicParsing="false" onMouseClicked="#BPMKnap" prefHeight="27.0" prefWidth="170.0" style="-fx-border-color: purple;" text="Start BPM Måling" />
+      <Button fx:id="bpmB" layoutX="460.0" layoutY="128.0" mnemonicParsing="false" onMouseClicked="#BPMKnap" prefHeight="27.0" prefWidth="149.0" style="-fx-border-color: purple;" text="Start BPM Måling" />
       <Label fx:id="spo2Label" layoutX="16.0" layoutY="206.0" onMouseClicked="#SPO2Knap" text="Patientens SPO2:" />
-      <Button fx:id="spo2B" layoutX="460.0" layoutY="172.0" mnemonicParsing="false" onMouseClicked="#SPO2Knap" prefHeight="27.0" prefWidth="170.0" style="-fx-border-color: yellow;" text="Start SPO2 Måling" />
+      <Button fx:id="spo2B" layoutX="460.0" layoutY="172.0" mnemonicParsing="false" onMouseClicked="#SPO2Knap" prefHeight="27.0" prefWidth="149.0" style="-fx-border-color: yellow;" text="Start SPO2 Måling" />
       <Label layoutX="121.0" layoutY="302.0" text="EKG:" />
-      <Button layoutX="460.0" layoutY="215.0" mnemonicParsing="false" onMouseClicked="#ekgKnap" prefHeight="27.0" prefWidth="170.0" style="-fx-border-color: black;" text="Start EKG Måling" />
+      <Button layoutX="460.0" layoutY="215.0" mnemonicParsing="false" onMouseClicked="#ekgKnap" prefHeight="27.0" prefWidth="149.0" style="-fx-border-color: black;" text="Start EKG Måling" />
       <ImageView fitHeight="93.0" fitWidth="130.0" layoutX="1.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@LOGOHVID'.JPG" />
@@ -85,7 +91,7 @@
       <Label fx:id="warningTemp" layoutX="242.0" layoutY="101.0" style="-fx-text-fill: red;" />
       <Label fx:id="warningBPM" layoutX="242.0" layoutY="154.0" style="-fx-text-fill: red;" />
       <Label fx:id="warningSPO2" layoutX="242.0" layoutY="206.0" style="-fx-text-fill: red;" />
-      <Button layoutX="473.0" layoutY="21.0" mnemonicParsing="false" onMouseClicked="#granseKnap" prefHeight="26.0" prefWidth="156.0" text="Sæt Grænseværdier" />
+      <Button layoutX="461.0" layoutY="28.0" mnemonicParsing="false" onMouseClicked="#granseKnap" prefHeight="26.0" prefWidth="150.0" text="Sæt Grænseværdier" />
       <Button fx:id="tilbageKnap" layoutX="121.0" layoutY="29.0" mnemonicParsing="false" onMouseClicked="#tilknap" text="Log Ud" />
       <Label fx:id="ekgLabel" layoutX="15.0" layoutY="260.0" text="EKG:" />
       <Label fx:id="ekgTekstData" layoutX="44.0" layoutY="260.0" text=" " />
