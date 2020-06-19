@@ -25,7 +25,7 @@ public class ThreadEx {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
+//ved ikke
         }
     });
     Thread t3 = new Thread(new Runnable() {
