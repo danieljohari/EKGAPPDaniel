@@ -2,7 +2,6 @@
 import data.EKGDTO;
 import data.EkgListener;
 import data.EkgSampler;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,13 +11,11 @@ public class PC implements EkgSampler {
    private SerialportConnector serialportConnector = new SerialportConnector(0);
 
     // Create a list shared by producer and consumer
-    // Size of list is 2.
 
     public LinkedList<EKGDTO> guiList = new LinkedList<>();
     public LinkedList<EKGDTO> dbList = new LinkedList<>();
     int capacity = 1000;
     private EkgListener listener;
-
 
 
     // Function called by producer thread
@@ -40,27 +37,12 @@ public class PC implements EkgSampler {
                         dbList.add(i);
                         //System.out.println(i);
                     }
-
-
-
-
                 }
 
-
-
-                //System.out.println(guiList.size());
-
                 // to insert the jobs in the list
-
-
-                //list.add(value[1]);
-
                 // notifies the consumer thread that
-                // now it can start consuming
+                // now it can start consumin
                 notify();
-
-                // makes the working of program easier
-                // to understand
             }
             Thread.sleep(2);
         }
@@ -94,8 +76,6 @@ public class PC implements EkgSampler {
             }
            // System.out.println("Consumer consumed-");
 
-
-
         }
     }
 
@@ -117,19 +97,14 @@ public class PC implements EkgSampler {
                 }
                 dbList = new LinkedList<>();
 
-
                 // Wake up producer thread
                 notify();
 
                 // and sleep
-
             }
             //System.out.println("Consumer consumed- 2 DB CONSUMED");
-
-
         }
     }
-
 
     @Override
     public void register(EkgListener ekgListener) {
