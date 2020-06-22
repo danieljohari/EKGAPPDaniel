@@ -18,7 +18,7 @@
           <NumberAxis autoRanging="false" prefWidth="1000" side="BOTTOM" upperBound="1000.0" />
         </xAxis>
         <yAxis>
-          <NumberAxis autoRanging="false" prefHeight="288.0" prefWidth="28.0" side="LEFT" upperBound="1000.0" />
+          <NumberAxis autoRanging="false" prefHeight="288.0" prefWidth="28.0" side="LEFT" upperBound="2000.0" />
         </yAxis>
          <cursor>
             <Cursor fx:constant="MOVE" />

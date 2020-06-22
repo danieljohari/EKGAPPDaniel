@@ -105,7 +105,7 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
     public void BPMKnap(MouseEvent mouseEvent) {
         BPMSim bpmSim = new BPMSim();
         new Thread(bpmSim).start();
-        bpmSim.register(this);
+        bpmSim.register((BpmListener) this);
     }
 
     //spo2 knap, registerer spo2 fra class og interface
@@ -277,7 +277,7 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
                         // series.getData().remove(0);
 
                     }else {
-                        series.getData().add(new XYChart.Data<>(x, ekgdtos.get(i).getEkg()-450)); //Båndstop filter Lav
+                        series.getData().add(new XYChart.Data<>(x, ekgdtos.get(i).getEkg()-300)); //Båndstop filter Lav
 
                         x++;
                     }

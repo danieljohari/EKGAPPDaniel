@@ -1,6 +1,8 @@
 package data;
 
 import java.sql.Timestamp;
+import java.util.LinkedList;
+import java.util.List;
 
 public class BPMSim implements Runnable, BpmSampler {
 
@@ -11,11 +13,52 @@ public class BPMSim implements Runnable, BpmSampler {
     public void register(BpmListener bpmListener){
         this.bpmListener = bpmListener;
     }
+
     //Registrerer "this = denne" bpmlistener, så den måling der er med det samme.
 
     double getBPM() {
-
+/*
         //metode til udregning af BPM
+       List<EKGDTO> bpmFraEKG = new LinkedList<>();
+        //System.out.println(bpmFraEKG);
+       int bcount = 0;
+       int firstSlope = 0;
+       int lastSlope = 0;
+       double max = Double.MAX_VALUE;
+       double min = Double.MIN_VALUE;
+
+        for (int i = 0; i <bpmFraEKG.size() ; i++) {
+            if (bpmFraEKG.get(i).getEkg() < min){
+                min = bpmFraEKG.get(i).getEkg();
+            }
+            if (bpmFraEKG.get(i).getEkg() > max){
+                max = bpmFraEKG.get(i).getEkg();
+            }
+
+        }
+        double limit = 0.6*min + 0.4 *max;
+
+
+        boolean first = false;
+        for (int i = 1; i < bpmFraEKG.size() ; i++) {
+            if (bpmFraEKG.get(i).getEkg() < limit && bpmFraEKG.get(i-1).getEkg() >= limit){
+                if (!first){
+                    firstSlope = i;
+                    first = true;
+                } else {
+                    lastSlope = i;
+                    bcount++;
+                }
+            }
+
+        }
+        double secElapsed = (lastSlope - firstSlope) * 0.025;
+        double tidPrSlag = bcount / secElapsed;
+        double targetHR = tidPrSlag * 60;
+        System.out.println(targetHR);
+
+ */
+
 
             int alder = 25;
             int maxBPM = 220 - alder;
@@ -25,6 +68,8 @@ public class BPMSim implements Runnable, BpmSampler {
             double targetHR = (targetHrRandom + targetHrMin) / 2;
             targetHR = Math.round(targetHR);
             //System.out.println(targetHR); //test
+
+
 
 
             return targetHR;
@@ -47,6 +92,8 @@ public class BPMSim implements Runnable, BpmSampler {
 
         }
     }
+
+
 }
 
 
