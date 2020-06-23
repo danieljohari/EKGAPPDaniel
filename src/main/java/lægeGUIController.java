@@ -12,6 +12,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Polyline;
 import javafx.stage.Stage;
+import sun.awt.image.ImageWatched;
+
 import java.io.IOException;
 import java.util.LinkedList;
 
@@ -20,7 +22,7 @@ import java.util.LinkedList;
 //Implementerer SIM interfaces
 public class lægeGUIController implements BpmListener, TempListener, SPO2Listener, EkgListener {
 
-    private double maxTemp =0.0;
+    private double maxTemp = 0.0;
     private double maxBPM = 0.0;
     private double maxSPO2 = 0.0;
     private String efternavn;
@@ -60,10 +62,6 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
     private ThreadEx threadEx = new ThreadEx();
 
 
-
-
-
-
     public void ekgKnap(MouseEvent actionEvent) {
         lineChart.setTitle("EKG GRAF");
         lineChart.getData().add(series);
@@ -73,21 +71,20 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
 
             public void run() {
 
-                    threadEx.t1.start();
-                    threadEx.t2.start();
-                    threadEx.t3.start();
+                threadEx.t1.start();
+                threadEx.t2.start();
+                threadEx.t3.start();
 
-                    try {
-                        threadEx.t1.join();
-                        threadEx.t2.join();
-                        threadEx.t3.join();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-
-
+                try {
+                    threadEx.t1.join();
+                    threadEx.t2.join();
+                    threadEx.t3.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+
+
+            }
 
 
         }).start();
@@ -98,7 +95,7 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
     public void tempKnap(MouseEvent mouseEvent) {
         TempSim tempSim = new TempSim();
         new Thread(tempSim).start();
-        tempSim.register( this);
+        tempSim.register(this);
     }
 
     //bpm knap, registerer bpm fra class og interface
@@ -109,16 +106,15 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
     }
 
     //spo2 knap, registerer spo2 fra class og interface
-    public void SPO2Knap(MouseEvent mouseEvent){
-       SPO2Sim spo2Sim = new SPO2Sim();
-       new Thread(spo2Sim).start();
-       spo2Sim.register(this);
+    public void SPO2Knap(MouseEvent mouseEvent) {
+        SPO2Sim spo2Sim = new SPO2Sim();
+        new Thread(spo2Sim).start();
+        spo2Sim.register(this);
     }
 
 
-
-//Mandknap vælger køn
-    public void manKnap(MouseEvent mouseEvent){
+    //Mandknap vælger køn
+    public void manKnap(MouseEvent mouseEvent) {
         Platform.runLater(new Runnable() {
             public void run() {
                 konValgt.setText("Mand");
@@ -126,8 +122,8 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
         });
     }
 
-//kvinde knap, vælger køn
-    public void kvindeKnap(MouseEvent mouseEvent){
+    //kvinde knap, vælger køn
+    public void kvindeKnap(MouseEvent mouseEvent) {
         Platform.runLater(new Runnable() {
             public void run() {
                 konValgt.setText("Kvinde");
@@ -135,8 +131,8 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
         });
     }
 
-//tænd knap
-    public void onKnap(MouseEvent mouseEvent){
+    //tænd knap
+    public void onKnap(MouseEvent mouseEvent) {
         Platform.runLater((new Runnable() {
             public void run() {
                 offLabel.setText("Patient Monitoring System Online!");
@@ -146,7 +142,7 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
     }
 
     //sluk knap
-    public void offKnap(MouseEvent mouseEvent){
+    public void offKnap(MouseEvent mouseEvent) {
         Platform.runLater(new Runnable() {
             public void run() {
                 offLabel.setText("Patient Monitoring System Off");
@@ -157,7 +153,7 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
     }
 
     //grænseknap til at sætte grænser
-    public void granseKnap(MouseEvent mouseEvent ) {
+    public void granseKnap(MouseEvent mouseEvent) {
         Limit lim = new Limit();
         maxTemp = lim.askForUrgentTemp();
         maxBPM = lim.askForUrgentBPM();
@@ -172,20 +168,20 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
     }
 
     //knap til at udskrive navn, efternavn, alder og køn i terminalen
-    public void gemTextKnap (MouseEvent mouseEvent){
+    public void gemTextKnap(MouseEvent mouseEvent) {
 
-            this.fornavn = fornavnText.getText();
-            this.efternavn = efternavnText.getText();
-            this.alder = alderText.getText();
-            this.kon = konValgt.getText();
+        this.fornavn = fornavnText.getText();
+        this.efternavn = efternavnText.getText();
+        this.alder = alderText.getText();
+        this.kon = konValgt.getText();
 
-            String dataPerson = fornavn +" " + efternavn + ", " + alder + ", " + kon;
+        String dataPerson = fornavn + " " + efternavn + ", " + alder + ", " + kon;
 
-                //System.out.println(dataPerson);
+        //System.out.println(dataPerson);
 
-            }
+    }
 
-//notify() metoden fra interface
+    //notify() metoden fra interface
     public void notifybpm(BpmDTO bpm) {
         //TODO: Save data i en database
         bpm.setCpr(cprText.getText());
@@ -194,7 +190,7 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
         Platform.runLater(new Runnable() {
             public void run() {
 
-                bpmLabel.setText("Patientens BPM: " + bpm.getBpm() );
+                bpmLabel.setText("Patientens BPM: " + bpm.getBpm());
 
                 //hvis bpm overstiger grænsen sat.
                 if (bpm.getBpm() >= maxBPM) {
@@ -204,12 +200,12 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
                 }
 
 
-                }
+            }
         });
 
     }
 
-//samme som bpm
+    //samme som bpm
     public void notifyTemp(TempDTO temp) {
         temp.setCpr(cprText.getText());
         tempDAO.save(temp);
@@ -217,7 +213,7 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
             public void run() {
 
                 tempLabel.setText("Patientens Temperatur: " + temp.getTemp());
-                if (temp.getTemp() >= maxTemp){
+                if (temp.getTemp() >= maxTemp) {
                     warningTemp.setText("Advarsel! Temperatur over " + maxTemp);
                 } else {
                     warningTemp.setText("");
@@ -234,7 +230,7 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
             public void run() {
 
                 spo2Label.setText("Patientens SPO2: " + spo2.getSpo2());
-                if( spo2.getSpo2() < maxSPO2) {
+                if (spo2.getSpo2() < maxSPO2) {
                     warningSPO2.setText("Advarsel! SPO2 under " + maxSPO2);
                 } else {
                     warningSPO2.setText("");
@@ -244,7 +240,7 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
     }
 
     //Tilbage knap til loginside
-    public void tilknap(final MouseEvent event){
+    public void tilknap(final MouseEvent event) {
         Platform.runLater(new Runnable() {
             public void run() {
                 Parent parLogin = null;
@@ -261,9 +257,9 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
         });
     }
 
-   @Override
+    @Override
     public void notifyEkg(LinkedList<EKGDTO> ekgdtos) {
-       // final double[] min = {Double.MIN_VALUE};
+        // final double[] min = {Double.MIN_VALUE};
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -273,18 +269,18 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
                 series.setName("Vores EKG data");
 
                 for (int i = 0; i < ekgdtos.size(); i++) {
-                    if (ekgdtos.get(i).getEkg() < 300 ) { //læst midt i strengen
+                    if (ekgdtos.get(i).getEkg() < 300) { //læst midt i strengen
                         // series.getData().remove(0);
 
-                    }else {
-                        series.getData().add(new XYChart.Data<>(x, ekgdtos.get(i).getEkg()-300)); //Båndstop filter Lav
+                    } else {
+                        series.getData().add(new XYChart.Data<>(x, ekgdtos.get(i).getEkg() - 300)); //Båndstop filter Lav
 
                         x++;
                     }
                 }
 
                 if (x > Size) {
-                    x =0;
+                    x = 0;
                     series.getData().clear();
                 }
                 /*
@@ -297,31 +293,87 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
 
         });
 
-    }
-
-
-
-    @Override
-    public void notifyEkgDb(LinkedList<EKGDTO> ekgdtoo) {
-
-        Thread t4 = new Thread(new Runnable() {
+        //beregn puls her:
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                for (int i = 0; i < ekgdtoo.size() ; i++) {
-                    ekgdtoo.get(i).setCpr(cprText.getText());
+                int bcount = 0;
+                int firstSlope = 0;
+                int lastSlope = 0;
+                double max = Double.MIN_VALUE;
+                double min = Double.MAX_VALUE;
+                //System.out.println(max);
+
+                for (int i = 0; i < ekgdtos.size(); i++) {
+                    if (ekgdtos.get(i).getEkg() < min) {
+                        min = ekgdtos.get(i).getEkg();
+                    }
+                    if (ekgdtos.get(i).getEkg() > max) {
+                        max = ekgdtos.get(i).getEkg();
+
+                    }
+
                 }
-                ekgDAO.savebatch(ekgdtoo);
+                double limit = 0.6 * min + 0.4 * max;
+
+
+                boolean first = false;
+                for (int i = 1; i < ekgdtos.size(); i++) {
+                    if (ekgdtos.get(i).getEkg() < limit && ekgdtos.get(i-1).getEkg() >= limit) {
+                        if (!first) {
+                            firstSlope = i;
+                            first = true;
+                        } else {
+                            lastSlope = i;
+                            bcount++;
+                            //System.out.println(bcount);
+                        }
+                    }
+
+                }
+                double secElapsed = (lastSlope - firstSlope) * 0.025;
+                //System.out.println(secElapsed);
+                double tidPrSlag = bcount / secElapsed;
+                //System.out.println(tidPrSlag);
+                double targetHR = tidPrSlag * 60/10;
+                if (targetHR > 40) {
+                    System.out.println(targetHR);
+                }
+
+
             }
-        }); t4.start();
-        try {
-            t4.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+
+        }).start();
+
+    }
+        @Override
+        public void notifyEkgDb (LinkedList < EKGDTO > ekgdtoo) {
+
+            Thread t4 = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < ekgdtoo.size(); i++) {
+                        ekgdtoo.get(i).setCpr(cprText.getText());
+                    }
+                    ekgDAO.savebatch(ekgdtoo);
+                }
+            });
+            t4.start();
+            try {
+                t4.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+
         }
 
 
+
     }
-}
+
+
+
 
 
 

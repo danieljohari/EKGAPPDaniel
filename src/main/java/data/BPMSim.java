@@ -75,6 +75,8 @@ public class BPMSim implements Runnable, BpmSampler {
             return targetHR;
         }
 
+
+
     public void run() {
         while (true) {
             try {

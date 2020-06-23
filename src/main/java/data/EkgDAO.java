@@ -10,4 +10,5 @@ public interface EkgDAO {
 
     void savebatch(LinkedList<EKGDTO> ekgBatch);
 
+
 }
