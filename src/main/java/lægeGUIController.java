@@ -21,7 +21,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.Temporal;
 import java.util.LinkedList;
-
+import java.util.List;
 
 
 //Implementerer SIM interfaces
@@ -57,6 +57,7 @@ public class lægeGUIController implements TempListener, SPO2Listener, EkgListen
     public Polyline polyline;
     public LineChart lineChart;
     XYChart.Series series = new XYChart.Series<>();
+    List<EKGDTO> komuleretEkg = new LinkedList<>();
     public TextField cprText;
     public Label ekgLabel;
     public Label ekgTekstData;
@@ -241,6 +242,7 @@ public class lægeGUIController implements TempListener, SPO2Listener, EkgListen
     @Override
     public void notifyEkg(LinkedList<EKGDTO> ekgdtos) {
         // final double[] min = {Double.MIN_VALUE};
+        komuleretEkg.addAll(ekgdtos);
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -261,73 +263,76 @@ public class lægeGUIController implements TempListener, SPO2Listener, EkgListen
                 }
 
                 if (x > Size) {
-                    calcBpm(ekgdtos);
+                    List<EKGDTO> calcList = komuleretEkg;
+                    calcBpm(calcList);
                     x = 0;
                     series.getData().clear();
-                }
-                /*
-                for (int i = 0; i < ekgdtos.size(); i++) {
-                    ekgTekstData.setText(String.valueOf(ekgdtos.get(i).getEkg()));
+                    komuleretEkg = new LinkedList<>();
+
                 }
 
-                 */
             }
 
         });
     }
 
         //beregn puls her:
-private void calcBpm(LinkedList<EKGDTO> ekgdto) {
+private void calcBpm(List<EKGDTO> ekgdtoList) {
     new Thread(new Runnable() {
         @Override
         public void run() {
-            double avg;
+            double threshHold;
             double max = Double.MIN_VALUE;
-            double min = Double.MAX_VALUE;
-            //System.out.println(max);
+            //double min = Double.MAX_VALUE;
 
-            for (int i = 0; i < ekgdto.size(); i++) {
-                if (ekgdto.get(i).getEkg() < min) {
-                    min = ekgdto.get(i).getEkg();
-                }
-                if (ekgdto.get(i).getEkg() > max) {
-                    max = ekgdto.get(i).getEkg();
+
+            for (int i = 0; i < ekgdtoList.size(); i++) {
+                if (ekgdtoList.get(i).getEkg() > max) {
+                    max = ekgdtoList.get(i).getEkg();
+                   // System.out.println("MAX LOOP" + max);
 
                 }
-
+                //System.out.println("EKG: "+ekgdtoList.get(i).getEkg());
             }
-            avg = 0.3 * min + 0.7 * max;
-
-
-            boolean first = false;
-            for (int i = 0; i < ekgdto.size(); i++) {
-                if (ekgdto.get(i).getEkg() > avg) {
-
-                    if (!first) {
-                        Timestamp ekgTime = ekgdto.get(i).getTime();
-                        double diff = Duration.between(start, ekgTime.toInstant()).toMillis();
-                        start = ekgTime.toInstant();
-                        first = true;
-                        double bpm = Math.round((60000.0 / diff) * 2.5);
-                        BpmDTO bpmDTO = new BpmDTO();
-                        bpmDTO.setBpm(bpm);
-                        bpmDTO.setCpr(cprText.getText());
-                        bpmDTO.setTime(new Timestamp(System.currentTimeMillis()));
-                        //System.out.println(bpmDTO.getBpm());
-                        if (bpm > 20 && bpm < 300) {
-                            Platform.runLater(() -> bpmLabel.setText(String.valueOf("Patientens Bpm: " +bpmDTO.getBpm())));
-                            BpmDAOSQLImpl bpmDAOSQL = new BpmDAOSQLImpl();
-                            bpmDAOSQL.save(bpmDTO);
-
-                        }
+            threshHold = 0.7 * max;
+            LinkedList<Timestamp> peakTimes = new LinkedList<>();
+            for (EKGDTO ekg:ekgdtoList) {
+                if (ekg.getEkg() > threshHold) {
+                    if (peakTimes.size() == 0 || ekg.getTime().getTime() - peakTimes.getLast().getTime() > 25) {
+                        peakTimes.add(ekg.getTime());
                     }
                 }
             }
+            long delta = peakTimes.getLast().getTime() - peakTimes.getFirst().getTime();
+            long beatTime = delta / (peakTimes.size() - 1);
+            double bpm = 60000.0/beatTime;
+            BpmDTO bpmDTO = new BpmDTO();
+            bpmDTO.setBpm(bpm);
+            bpmDTO.setCpr(cprText.getText());
+            bpmDTO.setTime(new Timestamp(System.currentTimeMillis()));
+            Platform.runLater(() -> {
+                bpmLabel.setText(String.valueOf("Patientens Bpm: " +(int) bpm));
+                if (bpmDTO.getBpm() > maxBPM){
+                    warningBPM.setText("Advarsel! BPM over" + maxBPM);
+                } else {
+                    warningBPM.setText(" ");
+                }
+            });
+
+            new Thread(() -> {
+                BpmDAOSQLImpl bpmDAOSQL = new BpmDAOSQLImpl();
+                bpmDAOSQL.save(bpmDTO);
+            }).start();
+
+            //System.out.println("BMP: "+60000.0/beatTime);
+            //System.out.println("AVG:" +threshHold);
+            //System.out.println(peakTimes.size());
+            //System.out.println("MAX:" +max);
+
         }
 
     }).start();
 }
-
 
 
         @Override
@@ -352,61 +357,6 @@ private void calcBpm(LinkedList<EKGDTO> ekgdto) {
 
         }
 
-    @Override
-    public void notifyPuls(LinkedList<EKGDTO> ekgdtos) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                int bcount = 0;
-                int firstSlope = 0;
-                int lastSlope = 0;
-                double max = Double.MIN_VALUE;
-                double min = Double.MAX_VALUE;
-                //System.out.println(max);
-
-                for (int i = 0; i < ekgdtos.size(); i++) {
-                    if (ekgdtos.get(i).getEkg() < min) {
-                        min = ekgdtos.get(i).getEkg();
-                    }
-                    if (ekgdtos.get(i).getEkg() > max) {
-                        max = ekgdtos.get(i).getEkg();
-
-                    }
-
-                }
-                double limit = 0.7 * min + 0.3 * max;
-
-
-                boolean first = false;
-                for (int i = 1; i < ekgdtos.size(); i++) {
-                    if (ekgdtos.get(i).getEkg() < limit && ekgdtos.get(i-1).getEkg() >= limit) {
-                        if (!first) {
-                            firstSlope = i;
-                            first = true;
-                        } else {
-                            lastSlope = i;
-                            bcount++;
-                            //System.out.println(bcount);
-                        }
-                    }
-
-                }
-                double secElapsed = (lastSlope - firstSlope) * 0.025;
-                //System.out.println(secElapsed);
-                double tidPrSlag = bcount / secElapsed;
-                //System.out.println(tidPrSlag);
-                double targetHR = tidPrSlag * 60/10;
-                if (targetHR > 40) {
-                    System.out.println(targetHR);
-                }
-
-
-            }
-
-        }).start();
-
-
-    }
 
 }
 
