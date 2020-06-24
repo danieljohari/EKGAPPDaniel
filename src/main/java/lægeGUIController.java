@@ -15,12 +15,17 @@ import javafx.stage.Stage;
 import sun.awt.image.ImageWatched;
 
 import java.io.IOException;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.Temporal;
 import java.util.LinkedList;
 
 
 
 //Implementerer SIM interfaces
-public class lægeGUIController implements BpmListener, TempListener, SPO2Listener, EkgListener {
+public class lægeGUIController implements TempListener, SPO2Listener, EkgListener {
 
     private double maxTemp = 0.0;
     private double maxBPM = 0.0;
@@ -60,6 +65,7 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
     private Spo2DAO spo2DAO = new Spo2DAOSQLImpl();
     private EkgDAO ekgDAO = new EkgDAOSQLImpl();
     private ThreadEx threadEx = new ThreadEx();
+    Instant start = Instant.now();
 
 
     public void ekgKnap(MouseEvent actionEvent) {
@@ -99,11 +105,6 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
     }
 
     //bpm knap, registerer bpm fra class og interface
-    public void BPMKnap(MouseEvent mouseEvent) {
-        BPMSim bpmSim = new BPMSim();
-        new Thread(bpmSim).start();
-        bpmSim.register((BpmListener) this);
-    }
 
     //spo2 knap, registerer spo2 fra class og interface
     public void SPO2Knap(MouseEvent mouseEvent) {
@@ -182,28 +183,8 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
     }
 
     //notify() metoden fra interface
-    public void notifybpm(BpmDTO bpm) {
-        //TODO: Save data i en database
-        bpm.setCpr(cprText.getText());
-        bpmDAO.save(bpm);
-        //DBController.save(bpm,fornavn, efternavn, alder, kon, new Date() );
-        Platform.runLater(new Runnable() {
-            public void run() {
-
-                bpmLabel.setText("Patientens BPM: " + bpm.getBpm());
-
-                //hvis bpm overstiger grænsen sat.
-                if (bpm.getBpm() >= maxBPM) {
-                    warningBPM.setText("Advarsel! BPM over " + maxBPM);
-                } else {
-                    warningBPM.setText("");
-                }
 
 
-            }
-        });
-
-    }
 
     //samme som bpm
     public void notifyTemp(TempDTO temp) {
@@ -280,6 +261,7 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
                 }
 
                 if (x > Size) {
+                    calcBpm(ekgdtos);
                     x = 0;
                     series.getData().clear();
                 }
@@ -292,8 +274,86 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
             }
 
         });
+    }
 
         //beregn puls her:
+private void calcBpm(LinkedList<EKGDTO> ekgdto) {
+    new Thread(new Runnable() {
+        @Override
+        public void run() {
+            double avg;
+            double max = Double.MIN_VALUE;
+            double min = Double.MAX_VALUE;
+            //System.out.println(max);
+
+            for (int i = 0; i < ekgdto.size(); i++) {
+                if (ekgdto.get(i).getEkg() < min) {
+                    min = ekgdto.get(i).getEkg();
+                }
+                if (ekgdto.get(i).getEkg() > max) {
+                    max = ekgdto.get(i).getEkg();
+
+                }
+
+            }
+            avg = 0.3 * min + 0.7 * max;
+
+
+            boolean first = false;
+            for (int i = 0; i < ekgdto.size(); i++) {
+                if (ekgdto.get(i).getEkg() > avg) {
+
+                    if (!first) {
+                        Timestamp ekgTime = ekgdto.get(i).getTime();
+                        double diff = Duration.between(start, ekgTime.toInstant()).toMillis();
+                        start = ekgTime.toInstant();
+                        first = true;
+                        double bpm = Math.round((60000.0 / diff) * 2.5);
+                        BpmDTO bpmDTO = new BpmDTO();
+                        bpmDTO.setBpm(bpm);
+                        bpmDTO.setCpr(cprText.getText());
+                        bpmDTO.setTime(new Timestamp(System.currentTimeMillis()));
+                        //System.out.println(bpmDTO.getBpm());
+                        if (bpm > 20 && bpm < 300) {
+                            Platform.runLater(() -> bpmLabel.setText(String.valueOf("Patientens Bpm: " +bpmDTO.getBpm())));
+                            BpmDAOSQLImpl bpmDAOSQL = new BpmDAOSQLImpl();
+                            bpmDAOSQL.save(bpmDTO);
+
+                        }
+                    }
+                }
+            }
+        }
+
+    }).start();
+}
+
+
+
+        @Override
+        public void notifyEkgDb (LinkedList < EKGDTO > ekgdtoo) {
+
+            Thread t4 = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < ekgdtoo.size(); i++) {
+                        ekgdtoo.get(i).setCpr(cprText.getText());
+                    }
+                    ekgDAO.savebatch(ekgdtoo);
+                }
+            });
+            t4.start();
+            try {
+                t4.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
+    @Override
+    public void notifyPuls(LinkedList<EKGDTO> ekgdtos) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -314,7 +374,7 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
                     }
 
                 }
-                double limit = 0.6 * min + 0.4 * max;
+                double limit = 0.7 * min + 0.3 * max;
 
 
                 boolean first = false;
@@ -345,32 +405,10 @@ public class lægeGUIController implements BpmListener, TempListener, SPO2Listen
 
         }).start();
 
-    }
-        @Override
-        public void notifyEkgDb (LinkedList < EKGDTO > ekgdtoo) {
-
-            Thread t4 = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    for (int i = 0; i < ekgdtoo.size(); i++) {
-                        ekgdtoo.get(i).setCpr(cprText.getText());
-                    }
-                    ekgDAO.savebatch(ekgdtoo);
-                }
-            });
-            t4.start();
-            try {
-                t4.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-
-        }
-
-
 
     }
+
+}
 
 
 

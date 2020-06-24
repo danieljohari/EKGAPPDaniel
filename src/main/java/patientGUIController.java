@@ -15,12 +15,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.Math.sin;
 
-public class patientGUIController implements BpmListener, TempListener, SPO2Listener {
+public class patientGUIController implements  TempListener, SPO2Listener {
 
     //PRÆCIS SAMME SOM LÆGEGUICONTROLLER UDOVER DER IKKE ER GRÆNSEVÆRDI
 
     private TempSim tempSim = new TempSim();
-    private BPMSim bpmSim = new BPMSim();
     private SPO2Sim spo2Sim = new SPO2Sim();
     private double maxTemp =0.0;
     private double maxBPM = 0.0;
@@ -82,11 +81,7 @@ public class patientGUIController implements BpmListener, TempListener, SPO2List
 
     }
 
-    public void BPMKnap(MouseEvent mouseEvent) {
-        BPMSim bpmSim = new BPMSim();
-        new Thread(bpmSim).start();
-        bpmSim.register(this);
-    }
+
 
 
     public void SPO2Knap(MouseEvent mouseEvent){

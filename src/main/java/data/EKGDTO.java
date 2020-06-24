@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 
 public class EKGDTO {
     private double ekg;
+    private double bpm;
     private String cpr;
     private Timestamp time;
 
@@ -30,5 +31,14 @@ public class EKGDTO {
 
     public void setTime(Timestamp time) {
         this.time = time;
+    }
+
+
+    public double getBpm() {
+        return bpm;
+    }
+
+    public void setBpm(double bpm) {
+        this.bpm = bpm;
     }
 }

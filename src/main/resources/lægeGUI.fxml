@@ -76,8 +76,8 @@
       </Label>
       <Label fx:id="tempLabel" layoutX="13.0" layoutY="101.0" onMouseClicked="#tempKnap" text="Patientens Temperatur:" />
       <Button fx:id="tempB" layoutX="462.0" layoutY="88.0" mnemonicParsing="false" onMouseClicked="#tempKnap" prefHeight="27.0" prefWidth="149.0" style="-fx-border-color: blue;" text="Start TempMåling" />
-      <Label fx:id="bpmLabel" layoutX="15.0" layoutY="154.0" onMouseClicked="#BPMKnap" text="Patientens BPM:" />
-      <Button fx:id="bpmB" layoutX="460.0" layoutY="128.0" mnemonicParsing="false" onMouseClicked="#BPMKnap" prefHeight="27.0" prefWidth="149.0" style="-fx-border-color: purple;" text="Start BPM Måling" />
+      <Label fx:id="bpmLabel" layoutX="15.0" layoutY="154.0"  text="Patientens BPM:" onMouseClicked="#ekgKnap" />
+      <Button fx:id="bpmB" layoutX="460.0" layoutY="128.0" mnemonicParsing="false"  prefHeight="27.0" prefWidth="149.0" style="-fx-border-color: purple;" text="Start BPM Måling" />
       <Label fx:id="spo2Label" layoutX="16.0" layoutY="206.0" onMouseClicked="#SPO2Knap" text="Patientens SPO2:" />
       <Button fx:id="spo2B" layoutX="460.0" layoutY="172.0" mnemonicParsing="false" onMouseClicked="#SPO2Knap" prefHeight="27.0" prefWidth="149.0" style="-fx-border-color: yellow;" text="Start SPO2 Måling" />
       <Label layoutX="121.0" layoutY="302.0" text="EKG:" />

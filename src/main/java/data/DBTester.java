@@ -6,7 +6,7 @@ import java.sql.*;
 public class DBTester {
 
 
-    private static BpmListener BPMSim;
+
     private static TempListener TempSim;
     private static SPO2Listener SPO2Sim;
 

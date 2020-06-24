@@ -7,11 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class BpmDAOSQLImpl implements BpmDAO {
-    @Override
     public void save(BpmDTO bpmDTO) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
+
 
                 Connection conn1 = Connector.getConnection();
                 try {
@@ -26,7 +23,31 @@ public class BpmDAOSQLImpl implements BpmDAO {
                 }
 
             }
-        });
 
     }
-}
+/*
+    @Override
+    public void save(EKGDTO ekgdto) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Connection conn1 = Connector.getConnection();
+                try {
+                    PreparedStatement preparedStatement = conn1.prepareStatement("INSERT INTO BPMMål(CPR, BPM,Tid) VALUES (?,?,?)");
+                    preparedStatement.setString(1,ekgdto.getCpr());
+                    preparedStatement.setDouble(2,ekgdto.getBpm());
+                    preparedStatement.setTimestamp(3,ekgdto.getTime());
+                    preparedStatement.executeUpdate();
+
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+
+            }
+        });
+            }
+
+ */
+
+
+
