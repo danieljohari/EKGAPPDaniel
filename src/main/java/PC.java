@@ -23,15 +23,12 @@ public class PC implements EkgSampler {
 
         while (true) {
             synchronized (this) {
-
-                // producer thread waits while list
-                // is full
+                // producer thread waits while list is full
                 while (guiList.size() == capacity && dbList.size() == capacity)
                     wait();
                 List<EKGDTO> value = serialportConnector.getData();
-
+                //System.out.println(value);
                 if (value != null) {
-
                     for (EKGDTO i : value) {
                         guiList.add(i);
                         dbList.add(i);

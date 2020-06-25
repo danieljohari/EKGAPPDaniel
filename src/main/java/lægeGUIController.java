@@ -257,7 +257,7 @@ public class lægeGUIController implements TempListener, SPO2Listener, EkgListen
 
                     } else {
                         series.getData().add(new XYChart.Data<>(x, ekgdtos.get(i).getEkg() - 300)); //Båndstop filter Lav
-
+                        //System.out.println("EKG MÅLING:"+ekgdtos.get(i).getEkg());
                         x++;
                     }
                 }
